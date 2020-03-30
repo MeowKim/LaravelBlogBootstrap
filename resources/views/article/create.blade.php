@@ -5,7 +5,7 @@
   @csrf
 
   <div class="form-group">
-    <label for="title">Title</label>
+    <label for="title">Title{{ session('name') }}</label>
     <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="" aria-describedby="title" value="{{ old('title') }}">
     @error('title')
     <p class="invalid-feedback">{{ $message }}</p>

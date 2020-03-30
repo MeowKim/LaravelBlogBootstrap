@@ -14,8 +14,8 @@ class AddUsersToArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->string('created_user', 255)->nullable()->after('created_at');
-            $table->string('updated_user', 255)->nullable()->after('updated_at');
+            $table->string('created_by', 255)->nullable()->after('created_at');
+            $table->string('updated_by', 255)->nullable()->after('updated_at');
         });
     }
 
@@ -27,8 +27,8 @@ class AddUsersToArticlesTable extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->dropColumn('created_user');
-            $table->dropColumn('updated_user');
+            $table->dropColumn('created_by');
+            $table->dropColumn('updated_by');
         });
     }
 }

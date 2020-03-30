@@ -9,3 +9,7 @@ form {
 textarea {
   resize: none;
 }
+
+pre {
+  min-height: 250px;
+}

@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('article.index');
-})->name('index');
+});
 
+// 블로그 게시물
 Route::group(['prefix' => 'articles'], function () {
     Route::get('', 'ArticleController@index')->name('article.index');  // 목록
     Route::get('create', 'ArticleController@create')->name('article.create');  // 작성 폼
@@ -27,4 +28,5 @@ Route::group(['prefix' => 'articles'], function () {
     Route::delete('{id}', 'ArticleController@destroy')->name('article.destroy');   // 삭제
 });
 
+// 사용자 인증
 Auth::routes();

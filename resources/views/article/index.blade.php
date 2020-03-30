@@ -20,10 +20,10 @@
         <div class="col-md-9">
             <div class="card-body">
                 <p class="card-text">
-                    <small class="text-muted">{{ $article->created_at }}</small>
+                    <small class="text-muted">{{ $article->created_by }} {{ $article->created_at }}</small>
                     <span class="float-right">
-                        Last Update <small class="text-muted">{{ $article->updated_at }}</small>
-                    </span>                    
+                        Last Update <small class="text-muted">{{ $article->updated_by }} {{ $article->updated_at }}</small>
+                    </span>
                 </p>
                 <h5 class="card-title">
                     <a href="{{ route('article.show', $article->id) }}">{{ $article->title }}</a>
