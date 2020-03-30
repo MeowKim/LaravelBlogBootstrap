@@ -15,7 +15,7 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('title');
+            $table->string('title', 255);
             $table->longText('content');
             $table->timestamps();
             $table->boolean('is_published')->nullable()->default(false);
