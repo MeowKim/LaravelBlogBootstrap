@@ -1,0 +1,11 @@
+nav {
+  display: inline-block;
+}
+
+form {
+  display: inline;
+}
+
+textarea {
+  resize: none;
+}
