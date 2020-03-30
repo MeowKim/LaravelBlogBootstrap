@@ -20,13 +20,13 @@ class ArticleController extends Controller
     // 목록
     public function index() {
         $articles = Article::when(request('keyword'), function($query, $keyword){
-                        return $query->where('title', 'like', '%'.$keyword.'%')->orWhere('content', 'like', '%'.$keyword.'%');
-                    })
-                    ->leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.email')
-                    ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.email')
-                    ->select('articles.*', 'created_user.name as created_by', 'updated_user.name as updated_by')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+                                return $query->where('title', 'like', '%'.$keyword.'%')->orWhere('content', 'like', '%'.$keyword.'%');
+                            })
+                            ->leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.email')
+                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.email')
+                            ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(5);
 
         return view('article.index', compact('articles'));
     }
@@ -53,7 +53,10 @@ class ArticleController extends Controller
 
     // 상세
     public function show($id) {
-        $article = Article::find($id);
+        $article = Article::leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.email')
+                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.email')
+                            ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
+                            ->find($id);
 
         // 존재여부 체크
         if ($article == NULL)

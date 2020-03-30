@@ -20,8 +20,9 @@
       @enderror
     </div>
     
-    <div class="mt-5 text-right">
+    <div class="mt-3 text-right">
       <a href="{{ route('article.index') }}" class="btn bg-secondary text-white">List</a>
+      
       @if (Auth::user()->email == $article->created_by)
       <button type="submit" class="btn btn-primary ml-2">Update</button>
       @endif
