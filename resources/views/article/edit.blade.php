@@ -1,4 +1,5 @@
-@extends('layout')
+@extends('layouts.app')
+
 @section('content')
 <form action="{{ route('article.update', $article->id) }}" method="post">
     @csrf

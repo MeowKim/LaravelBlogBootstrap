@@ -1,4 +1,5 @@
-@extends('layout')
+@extends('layouts.app')
+
 @section('content')
 <h1>{{ $article->title }}</h1>
 <small class="small text-muted">{{ $article->updated_at }}</small>
