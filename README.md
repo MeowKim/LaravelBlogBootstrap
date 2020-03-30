@@ -5,8 +5,8 @@ git clone https://github.com/MeowKim/LaravelBlogBootstrap.git
 
 # Initialize
 ``
-cd LaravelBlogBootstrap  
-cp .env.example .env  
+cd LaravelBlogBootstrap   
+cp .env.example .env   
 composer install
 ``
 
