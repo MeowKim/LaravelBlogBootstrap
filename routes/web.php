@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('article.index');
-});
+})->name('index');
 
 Route::group(['prefix' => 'articles'], function () {
     Route::get('', 'ArticleController@index')->name('article.index');  // 목록
@@ -26,6 +26,5 @@ Route::group(['prefix' => 'articles'], function () {
     Route::put('{id}', 'ArticleController@update')->name('article.update');    // 업데이트
     Route::delete('{id}', 'ArticleController@destroy')->name('article.destroy');   // 삭제
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

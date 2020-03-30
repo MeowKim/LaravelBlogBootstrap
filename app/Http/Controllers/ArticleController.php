@@ -11,6 +11,12 @@ class ArticleController extends Controller
         'content' => 'required'
     ];
 
+    // 세션 체크
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // 목록
     public function index() {
         $articles = Article::when(request('keyword'), function($query, $keyword){
