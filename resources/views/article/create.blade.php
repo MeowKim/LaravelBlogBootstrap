@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('article.store') }}" method="post">
+<form action="{{ route('articles.store') }}" method="post">
   @csrf
 
   <div class="form-group">
@@ -21,7 +21,7 @@
   
   <div class="mt-5 text-right">
     <button type="submit" class="btn btn-primary">Create</button>
-    <a href="{{ route('article.index') }}" class="btn bg-secondary text-white ml-2">List</a>    
+    <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white ml-2">List</a>    
   </div>
 </form>
 @endsection

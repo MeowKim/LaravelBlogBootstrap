@@ -12,8 +12,8 @@
 
 <div class="mt-3 text-right">
   @if (Auth::user()->email == $article->created_by)
-  <a href="{{ route('article.edit', $article->id) }}" class="btn btn-primary">Edit</a>
-  <form action="{{ route('article.destroy', $article->id) }}" method="post">
+  <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary">Edit</a>
+  <form action="{{ route('articles.destroy', $article->id) }}" method="post">
     @csrf
     @method('delete')
     
@@ -21,6 +21,6 @@
   </form>
   @endif
 
-  <a href="{{ route('article.index') }}" class="btn bg-secondary text-white ml-2">List</a>
+  <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white ml-2">List</a>
 </div>
 @endsection

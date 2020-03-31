@@ -6,8 +6,8 @@
         <input type="text" class="form-control col-md-4 float-left" placeholder="Search.." name="keyword" id="keyword" value="{{ request('keyword') }}"> 
         <button type="submit" class="btn btn-info text-white float-left ml-1">Search</button>
     </form>
-    <a href="{{ route('article.index') }}" class="btn bg-secondary text-white float-left ml-1">Reset</a>
-    <a href="{{ route('article.create') }}" class="btn btn-primary text-white">Create New Blog</a>
+    <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white float-left ml-1">Reset</a>
+    <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">Create New Blog</a>
 </div>
 
 @foreach ($articles as $article)
@@ -25,7 +25,7 @@
                     </span>
                 </p>
                 <h5 class="card-title">
-                    <a href="{{ route('article.show', $article->id) }}">{{ $article->title }}</a>
+                    <a href="{{ route('articles.show', $article->id) }}">{{ $article->title }}</a>
                 </h5>                
                 <p class="card-text">{{ $article->content }}</p>                
             </div>
