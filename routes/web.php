@@ -17,8 +17,11 @@ Route::get('/', function () {
     return redirect()->route('articles.index');
 });
 
+// 인증
+Auth::routes();
+
 // 게시물
 Route::resource('/articles', 'ArticleController');
 
-// 사용자 인증
-Auth::routes();
+// 프로필
+Route::resource('/profile', 'ProfileController');

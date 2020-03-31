@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model  
 {
-
-    
-
     /**
      * The database table used by the model.
      *
@@ -43,5 +40,4 @@ class Article extends Model
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
-
 }
