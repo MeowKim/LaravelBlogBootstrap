@@ -28,12 +28,12 @@ class ArticleController extends Controller
                             ->orderBy('created_at', 'desc')
                             ->paginate(5);
 
-        return view('article.index', compact('articles'));
+        return view('articles.index', compact('articles'));
     }
 
     // 작성 폼
     public function create() {
-        return view('article.create');
+        return view('articles.create');
     }
 
     // 저장
@@ -62,7 +62,7 @@ class ArticleController extends Controller
         if ($article == NULL)
             return abort('404');
 
-        return view('article.show', compact('article'));
+        return view('articles.show', compact('article'));
     }
 
     // 수정 폼
@@ -77,7 +77,7 @@ class ArticleController extends Controller
         if (auth()->user()->id != $article->created_by)
             return abort('403');
 
-        return view('article.edit', compact('article'));
+        return view('articles.edit', compact('article'));
     }
 
     // 업데이트
