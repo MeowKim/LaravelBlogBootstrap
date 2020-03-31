@@ -11,7 +11,7 @@
 <div class="mt-3 pt-3 border-top border-bottom"><pre>{{ $article->content }}</pre></div>
 
 <div class="mt-3 text-right">
-  @if (Auth::user()->email == $article->created_by)
+  @if (Auth::user()->id == $article->created_by)
   <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary">Edit</a>
   <form action="{{ route('articles.destroy', $article->id) }}" method="post">
     @csrf

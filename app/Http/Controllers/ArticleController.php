@@ -22,8 +22,8 @@ class ArticleController extends Controller
         $articles = Article::when(request('keyword'), function($query, $keyword){
                                 return $query->where('title', 'like', '%'.$keyword.'%')->orWhere('content', 'like', '%'.$keyword.'%');
                             })
-                            ->leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.email')
-                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.email')
+                            ->leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.id')
+                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.id')
                             ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
                             ->orderBy('created_at', 'desc')
                             ->paginate(5);
@@ -44,17 +44,17 @@ class ArticleController extends Controller
         $article = new Article();
         $article->title = request('title');
         $article->content = request('content');
-        $article->created_by = auth()->user()->email;
-        $article->updated_by = auth()->user()->email;
+        $article->created_by = auth()->user()->id;
+        $article->updated_by = auth()->user()->id;
         $article->save();
 
-        return redirect()->route('article.index');
+        return redirect()->route('articles.index');
     }
 
     // 상세
     public function show($id) {
-        $article = Article::leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.email')
-                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.email')
+        $article = Article::leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.id')
+                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.id')
                             ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
                             ->find($id);
 
@@ -74,7 +74,7 @@ class ArticleController extends Controller
             return abort('404');
 
         // 오너 체크
-        if (auth()->user()->email != $article->created_by)
+        if (auth()->user()->id != $article->created_by)
             return abort('403');
 
         return view('article.edit', compact('article'));
@@ -89,7 +89,7 @@ class ArticleController extends Controller
             return abort('404');
 
         // 오너 체크
-        if (auth()->user()->email != $article->created_by)
+        if (auth()->user()->id != $article->created_by)
             return abort('403');
 
         // 밸리데이션 체크
@@ -97,10 +97,10 @@ class ArticleController extends Controller
 
         $article->title = request('title');
         $article->content = request('content');
-        $article->updated_by = auth()->user()->email;
+        $article->updated_by = auth()->user()->id;
         $article->save();
 
-        return redirect()->route('article.show', $article->id);
+        return redirect()->route('articles.show', $article->id);
     }
 
     // 삭제
@@ -112,11 +112,11 @@ class ArticleController extends Controller
             return abort('404');
         
         // 오너 체크
-        if (auth()->user()->email != $article->created_by)
+        if (auth()->user()->id != $article->created_by)
             return abort('403');
         
         $article->delete();
 
-        return redirect()->route('article.index');
+        return redirect()->route('articles.index');
     }
 }

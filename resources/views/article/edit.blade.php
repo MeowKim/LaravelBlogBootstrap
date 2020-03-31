@@ -23,7 +23,7 @@
     <div class="mt-3 text-right">
       <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white">List</a>
       
-      @if (Auth::user()->email == $article->created_by)
+      @if (Auth::user()->id == $article->created_by)
       <button type="submit" class="btn btn-primary ml-2">Update</button>
       @endif
     </div>
