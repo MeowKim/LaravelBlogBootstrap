@@ -10,7 +10,7 @@ cp .env.example .env
 composer install
 ```
 
-# Check DB Connection(.env) & Migrate DB
+# Migrate DB
 ```
 php artisan migrate
 ```
@@ -18,8 +18,8 @@ php artisan migrate
 # Set Permission
 ```
 cd ..  
-mv LaravelBlogBootstrap <HOME_DIR_NAME>  
-chown -R <USER_NAME>:<USER_GROUP> <HOME_DIR_NAME>
+mv LaravelBlogBootstrap <HOME_DIR>  
+chown -R <USER_NAME>:<USER_GROUP> <HOME_DIR>
 ```
 
 # Set Web Server(Apache2) Configuration
