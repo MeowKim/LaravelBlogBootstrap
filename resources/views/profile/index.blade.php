@@ -7,11 +7,11 @@
     <div class="mt-5">
       <h2>{{ $user->name }}</h2>
       <h4><span class="text-muted">{{ $user->email }}</span></h4>
-      <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary mt-3">Edit</a>
+      <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary mt-3">{{ __('Edit') }}</a>
     </div>
   </div>
   <div class="right-container col-md-9">
-    <h4>Articles</h4>
+    <h4>{{ __('Articles') }}</h4>
     
     @forelse ($user->articles as $article)
     <div class="card mt-3">
@@ -24,7 +24,7 @@
                     <p class="card-text">
                         <small class="text-muted">{{ $article->created_at }}</small>
                         <span class="float-right">
-                            Last Update <small class="text-muted">{{ $article->updated_at }}</small>
+                            {{ __('Last Update') }} <small class="text-muted">{{ $article->updated_at }}</small>
                         </span>
                     </p>
                     <h5 class="card-title">
