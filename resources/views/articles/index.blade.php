@@ -4,10 +4,10 @@
 <div class="text-right">
     <form action="" method="get">
         <input type="text" class="form-control col-md-4 float-left" placeholder="Search.." name="keyword" id="keyword" value="{{ request('keyword') }}"> 
-        <button type="submit" class="btn btn-info text-white float-left ml-1">{{ __('Search') }}</button>
+        <button type="submit" class="btn btn-info text-white float-left ml-1">{{ __('ui/generals.search') }}</button>
     </form>
-    <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white float-left ml-1">{{ __('Reset') }}</a>
-    <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">{{ __('Write') }}</a>
+    <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white float-left ml-1">{{ __('ui/generals.reset') }}</a>
+    <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">{{ __('ui/generals.write') }}</a>
 </div>
 
 @forelse ($articles as $article)
@@ -21,7 +21,7 @@
                 <p class="card-text">
                     <small class="text-muted">{{ $article->creator->name }} {{ $article->created_at }}</small>
                     <span class="float-right">
-                        {{ __('Last Update') }} <small class="text-muted">{{ $article->updater->name }} {{ $article->updated_at }}</small>
+                        {{ __('ui/articles.last_update') }} <small class="text-muted">{{ $article->updater->name }} {{ $article->updated_at }}</small>
                     </span>
                 </p>
                 <h5 class="card-title">
@@ -33,7 +33,7 @@
     </div>
 </div>
 @empty
-<p>@lang('articles.empty')</p>
+<p>{{ __('ui/articles.empty') }}</p>
 @endforelse
 
 <div class="text-center mt-3">

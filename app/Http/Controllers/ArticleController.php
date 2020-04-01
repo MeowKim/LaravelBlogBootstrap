@@ -7,7 +7,7 @@ use App\Models\Article;
 class ArticleController extends Controller
 {
     // 밸리데이션 조건
-    private $validate_cond = [
+    private $validation_rules_article = [
         'title' => 'bail|required|max:255',
         'content' => 'required',
     ];
@@ -38,7 +38,7 @@ class ArticleController extends Controller
     // 저장
     public function store() {
         // 밸리데이션 체크
-        request()->validate($this->validate_cond);
+        request()->validate($this->validation_rules_article);
 
         $article = new Article();
         $article->title = request('title');
@@ -90,7 +90,7 @@ class ArticleController extends Controller
             return abort('403');
 
         // 밸리데이션 체크
-        request()->validate($this->validate_cond);
+        request()->validate($this->validation_rules_article);
 
         $article->title = request('title');
         $article->content = request('content');

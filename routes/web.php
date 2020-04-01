@@ -25,7 +25,11 @@ Route::resource('/articles', 'ArticleController');
 
 // 프로필
 Route::group(['prefix' => 'profile'], function () {
-    route::get('', 'ProfileController@index')->name('profile.index');
+    route::get('/', 'ProfileController@index')->name('profile.index');
     route::get('/edit', 'ProfileController@edit')->name('profile.edit');
-    route::put('', 'ProfileController@update')->name('profile.update');
+    route::put('/', 'ProfileController@update')->name('profile.update');
+    Route::get('/password/change', 'ProfileController@changePassword')->name('profile.password.change');
+    Route::put('/password', 'ProfileController@updatePassword')->name('profile.password.update');
 });
+
+

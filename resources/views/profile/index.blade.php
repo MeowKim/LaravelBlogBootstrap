@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
 <div class="profile row">
   <div class="left-container col-md-3">
     <img src="https://via.placeholder.com/260x260.png?text=x" alt="">
     <div class="mt-5">
       <h2>{{ $user->name }}</h2>
-      <h4><span class="text-muted">{{ $user->email }}</span></h4>
-      <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary mt-3">{{ __('Edit') }}</a>
+      <h4><span class="text-muted">{{ $user->email }}</span></h4>      
+    </div>
+    <div class="mt-5 text-center">
+        <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary mt-3">{{ __('ui/generals.edit') }}</a>
+        <a class="btn btn-link" href="{{ route('profile.password.change') }}">
+            {{ __('ui/users.change_password') }}
+        </a>
     </div>
   </div>
   <div class="right-container col-md-9">
-    <h4>{{ __('Articles') }}</h4>
+    <h4>{{ __('ui/generals.articles') }}</h4>
     
     @forelse ($user->articles as $article)
     <div class="card mt-3">
@@ -24,7 +35,7 @@
                     <p class="card-text">
                         <small class="text-muted">{{ $article->created_at }}</small>
                         <span class="float-right">
-                            {{ __('Last Update') }} <small class="text-muted">{{ $article->updated_at }}</small>
+                            {{ __('ui/articles.last_update') }} <small class="text-muted">{{ $article->updated_at }}</small>
                         </span>
                     </p>
                     <h5 class="card-title">
@@ -36,7 +47,7 @@
         </div>
     </div>
     @empty
-    <p>@lang('articles.empty')</p>
+    <p>{{ __('ui/articles.empty') }}</p>
     @endforelse
 
     <div class="text-center mt-3">
