@@ -6,6 +6,12 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
+    // 밸리데이션 조건
+    private $validate_cond = [
+        'name' => 'bail|required|string|max:255',
+        'email' => 'bail|required|string|email|max:255|unique:users',
+    ];
+
     // 인증 체크
     public function __construct()
     {
@@ -35,12 +41,16 @@ class ProfileController extends Controller
     // 업데이트
     public function update()
     {
+        // 밸리데이션 체크
+        request()->validate($this->validate_cond);
+
         $id = auth()->user()->id;
         $user = User::find($id);
 
         $user->name = request('name');
         $user->email = request('email');
         $user->save();
+        
         return redirect()->route('profile.index');
     }
 }

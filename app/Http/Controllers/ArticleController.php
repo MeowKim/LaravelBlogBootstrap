@@ -6,9 +6,10 @@ use App\Models\Article;
 
 class ArticleController extends Controller
 {
+    // 밸리데이션 조건
     private $validate_cond = [
         'title' => 'bail|required|max:255',
-        'content' => 'required'
+        'content' => 'required',
     ];
 
     // 인증 체크
