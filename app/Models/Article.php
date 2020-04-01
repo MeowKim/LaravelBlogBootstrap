@@ -40,4 +40,12 @@ class Article extends Model
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
+
+    public function creator() {
+        return $this->belongsTo('App\Models\User', 'created_by');
+    }
+
+    public function updater() {
+        return $this->belongsTo('App\Models\User', 'updated_by');
+    }
 }

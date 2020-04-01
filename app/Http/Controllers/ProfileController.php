@@ -2,83 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // 인증 체크
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    // 보기
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+        $user = User::find($id);
+        $articles = $user->articles()->paginate(5);
+        $user->setRelation('articles', $articles);
+
+        return view('profile.index', compact('user'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    // 수정 폼
+    public function edit()
     {
-        //
+        $id = auth()->user()->id;
+        $user = User::find($id);
+
+        return view('profile.edit', compact('user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // 업데이트
+    public function update()
     {
-        //
-    }
+        $id = auth()->user()->id;
+        $user = User::find($id);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->save();
+        return redirect()->route('profile.index');
     }
 }

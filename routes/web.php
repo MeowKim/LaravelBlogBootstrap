@@ -24,4 +24,8 @@ Auth::routes();
 Route::resource('/articles', 'ArticleController');
 
 // 프로필
-Route::resource('/profile', 'ProfileController');
+Route::group(['prefix' => 'profile'], function () {
+    route::get('', 'ProfileController@index')->name('profile.index');
+    route::get('/edit', 'ProfileController@edit')->name('profile.edit');
+    route::put('', 'ProfileController@update')->name('profile.update');
+});

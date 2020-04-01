@@ -3,10 +3,10 @@
 @section('content')
 <h1>{{ $article->title }}</h1>
 <div>
-  Created : <small class="small text-muted">{{ $article->created_by_name }} {{ $article->created_at }}</small>
+  Created : <small class="small text-muted">{{ $article->creator->name }} {{ $article->created_at }}</small>
 </div>
 <div>
-  Updated : <small class="small text-muted">{{ $article->updated_by_name }} {{ $article->updated_at }}</small>
+  Updated : <small class="small text-muted">{{ $article->updater->name }} {{ $article->updated_at }}</small>
 </div>
 <div class="mt-3 pt-3 border-top border-bottom"><pre>{{ $article->content }}</pre></div>
 

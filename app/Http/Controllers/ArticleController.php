@@ -11,7 +11,7 @@ class ArticleController extends Controller
         'content' => 'required'
     ];
 
-    // 세션 체크
+    // 인증 체크
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,9 +22,7 @@ class ArticleController extends Controller
         $articles = Article::when(request('keyword'), function($query, $keyword){
                                 return $query->where('title', 'like', '%'.$keyword.'%')->orWhere('content', 'like', '%'.$keyword.'%');
                             })
-                            ->leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.id')
-                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.id')
-                            ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
+                            ->with('creator', 'updater')
                             ->orderBy('created_at', 'desc')
                             ->paginate(5);
 
@@ -53,9 +51,7 @@ class ArticleController extends Controller
 
     // 상세
     public function show($id) {
-        $article = Article::leftJoin('users as created_user', 'articles.created_by', '=', 'created_user.id')
-                            ->leftJoin('users as updated_user', 'articles.updated_by', '=', 'updated_user.id')
-                            ->select('articles.*', 'created_user.name as created_by_name', 'updated_user.name as updated_by_name')
+        $article = Article::with('creator', 'updater')
                             ->find($id);
 
         // 존재여부 체크

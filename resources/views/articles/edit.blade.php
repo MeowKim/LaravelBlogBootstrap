@@ -27,5 +27,6 @@
       <button type="submit" class="btn btn-primary ml-2">Update</button>
       @endif
     </div>
-  </form>
+    
+</form>
 @endsection

@@ -23,5 +23,6 @@
     <button type="submit" class="btn btn-primary">Create</button>
     <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white ml-2">List</a>    
   </div>
+  
 </form>
 @endsection

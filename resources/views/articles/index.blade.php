@@ -10,7 +10,7 @@
     <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">Create New Blog</a>
 </div>
 
-@foreach ($articles as $article)
+@forelse ($articles as $article)
 <div class="card mt-3">
     <div class="row no-gutters">
         <div class="col-md-3">
@@ -19,9 +19,9 @@
         <div class="col-md-9">
             <div class="card-body">
                 <p class="card-text">
-                    <small class="text-muted">{{ $article->created_by_name }} {{ $article->created_at }}</small>
+                    <small class="text-muted">{{ $article->creator->name }} {{ $article->created_at }}</small>
                     <span class="float-right">
-                        Last Update <small class="text-muted">{{ $article->updated_by_name }} {{ $article->updated_at }}</small>
+                        Last Update <small class="text-muted">{{ $article->updater->name }} {{ $article->updated_at }}</small>
                     </span>
                 </p>
                 <h5 class="card-title">
@@ -32,7 +32,9 @@
         </div>
     </div>
 </div>
-@endforeach
+@empty
+<p>@lang('articles.empty')</p>
+@endforelse
 
 <div class="text-center mt-3">
     {{ $articles->links() }}
