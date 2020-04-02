@@ -3,8 +3,9 @@
 return [
     'title' => 'Title',
     'content' => 'Content',
+    'image' => 'Image',
     'last_update' => 'Last Update',
     'created' => 'Created',
-    'updated' => 'Updated',    
+    'updated' => 'Updated',
     'empty' => 'There is no articles.',
 ];
