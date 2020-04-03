@@ -6,14 +6,12 @@ use App\Http\Requests\UpdatePassword;
 use App\Http\Requests\UpdateProfile;
 use App\Models\User;
 use App\Traits\FileUpload;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     // Traits
     use FileUpload;
-    const storage_disk = 'public';
 
     // 인증 체크
     public function __construct()
