@@ -6,13 +6,13 @@ use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\DeleteArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
-use App\Traits\FileUpload;
+use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
     // Traits
-    use FileUpload;
+    use FileUploadTrait;
 
     // 인증 체크
     public function __construct()

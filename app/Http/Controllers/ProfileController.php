@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
-use App\Traits\FileUpload;
+use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     // Traits
-    use FileUpload;
+    use FileUploadTrait;
 
     // 인증 체크
     public function __construct()

@@ -5,7 +5,7 @@ namespace App\Traits;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
-trait FileUpload
+trait FileUploadTrait
 {
     public function uploadFile(UploadedFile $uploadedFile, $path = null, $disk = 'public', $user = 'guest')
     {
