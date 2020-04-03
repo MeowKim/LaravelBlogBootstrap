@@ -60,6 +60,6 @@ class Article extends Model
     {
         list($width, $height) = @getimagesize(public_path($this->ImagePath));
 
-        return $width < $height ? 'vertical' : 'horizontal';
+        return $width < 500 || $width < $height ? 'vertical' : 'horizontal';
     }
 }
