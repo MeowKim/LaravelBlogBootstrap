@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateArticle;
+use App\Http\Requests\DeleteArticle;
+use App\Http\Requests\UpdateArticle;
 use App\Models\Article;
+use App\Traits\FileUpload;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
-    // 밸리데이션 조건
-    private $validation_rules_article = [
-        'title' => 'bail|required|max:255',
-        'content' => 'required',
-    ];
+    // Traits
+    use FileUpload;
 
     // 인증 체크
     public function __construct()
@@ -19,99 +21,102 @@ class ArticleController extends Controller
     }
 
     // 목록
-    public function index() {
-        $articles = Article::when(request('keyword'), function($query, $keyword){
-                                return $query->where('title', 'like', '%'.$keyword.'%')->orWhere('content', 'like', '%'.$keyword.'%');
-                            })
-                            ->with('creator', 'updater')
-                            ->orderBy('created_at', 'desc')
-                            ->paginate(5);
+    public function index()
+    {
+        $articles = Article::when(request('keyword'), function ($query, $keyword) {
+            return $query->where('title', 'like', '%' . $keyword . '%')->orWhere('content', 'like', '%' . $keyword . '%');
+        })
+            ->with('creator', 'updater')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return view('articles.index', compact('articles'));
     }
 
     // 작성 폼
-    public function create() {
+    public function create()
+    {
         return view('articles.create');
     }
 
     // 저장
-    public function store() {
-        // 밸리데이션 체크
-        request()->validate($this->validation_rules_article);
-
+    public function store(CreateArticle $request)
+    {
+        $user = $request->user();
         $article = new Article();
-        $article->title = request('title');
-        $article->content = request('content');
-        $article->created_by = auth()->user()->id;
-        $article->updated_by = auth()->user()->id;
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->created_by = $user->id;
+        $article->updated_by = $user->id;
+
+        if (request()->has('image')) {
+            $uploaded_file = $request->file('image');
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
+            $disk = Storage::disk(config('CONST.DISK'));
+            $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
+
+            if ($disk->exists($current_file_path)) {
+                $disk->delete($current_file_path);
+            }
+
+            $article->image_name = $uploaded_file->getClientOriginalName();
+            $article->image = basename($stored_file_path);
+        }
+
         $article->save();
 
         return redirect()->route('articles.index');
     }
 
     // 상세
-    public function show($id) {
+    public function show()
+    {
         $article = Article::with('creator', 'updater')
-                            ->find($id);
-
-        // 존재여부 체크
-        if ($article == NULL)
-            return abort('404');
+            ->findOrFail(request()->route('article'));
 
         return view('articles.show', compact('article'));
     }
 
     // 수정 폼
-    public function edit($id) {
-        $article = Article::find($id);
-
-        // 존재여부 체크
-        if ($article == NULL)
-            return abort('404');
-
-        // 오너 체크
-        if (auth()->user()->id != $article->created_by)
-            return abort('403');
+    public function edit()
+    {
+        $article = Article::findOrFail(request()->route('article'));
 
         return view('articles.edit', compact('article'));
     }
 
     // 업데이트
-    public function update($id) {
-        $article = Article::find($id);
+    public function update(UpdateArticle $request)
+    {
+        $user = $request->user();
+        $article = Article::findOrFail($request->route('article'));
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->updated_by = $user->id;
 
-        // 존재여부 체크
-        if ($article == NULL)
-            return abort('404');
+        if (request()->has('image')) {
+            $uploaded_file = $request->file('image');
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
+            $disk = Storage::disk(config('CONST.DISK'));
+            $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
-        // 오너 체크
-        if (auth()->user()->id != $article->created_by)
-            return abort('403');
+            if ($disk->exists($current_file_path)) {
+                $disk->delete($current_file_path);
+            }
 
-        // 밸리데이션 체크
-        request()->validate($this->validation_rules_article);
+            $article->image_name = $uploaded_file->getClientOriginalName();
+            $article->image = basename($stored_file_path);
+        }
 
-        $article->title = request('title');
-        $article->content = request('content');
-        $article->updated_by = auth()->user()->id;
         $article->save();
 
         return redirect()->route('articles.show', $article->id);
     }
 
     // 삭제
-    public function destroy($id) {
-        $article = Article::find($id);
-
-        // 존재여부 체크
-        if ($article == NULL)
-            return abort('404');
-        
-        // 오너 체크
-        if (auth()->user()->id != $article->created_by)
-            return abort('403');
-        
+    public function destroy(DeleteArticle $request)
+    {
+        $article = Article::findOrFail($request->route('article'));
         $article->delete();
 
         return redirect()->route('articles.index');

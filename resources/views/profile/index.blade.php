@@ -9,17 +9,23 @@
 
 <div class="profile row">
     <div class="left-container col-md-3">
-        <img src="https://via.placeholder.com/260x260.png?text=x" alt="">
-        <div class="mt-5">
-            <h2>{{ $user->name }}</h2>
-            <h4><span class="text-muted">{{ $user->email }}</span></h4>
+        {{-- <h4>&nbsp;</h4> --}}
+        <div class="row mt-1">
+            <div class="col-lg-12 col-lg-3 text-center">
+                <img src="{{ $user->image_path ?? config('CONST.NO_IMAGE_PROFILE') }}" alt="">
+            </div>
+            <div class="col-lg-12 col-lg-9 mt-5">
+                <h2>{{ $user->name }}</h2>
+                <h4 class="text-muted">{{ $user->email }}</h4>
+            </div>
         </div>
-        <div class="mt-5 text-center">
-            <a href="{{ route('profile.edit') }}"
-                class="btn btn-block btn-primary mt-3">{{ __('ui/generals.edit') }}</a>
-            <a class="btn btn-link" href="{{ route('profile.password.change') }}">
-                {{ __('ui/users.change_password') }}
-            </a>
+        <div class="row mt-5 mb-5">
+            <div class="col-lg-12 text-center">
+                <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary">{{ __('ui/generals.edit') }}</a>
+                <a href="{{ route('profile.password.change') }}" class="btn btn-link">
+                    {{ __('ui/users.change_password') }}
+                </a>
+            </div>
         </div>
     </div>
     <div class="right-container col-md-9">
@@ -29,7 +35,7 @@
         <div class="card mt-3">
             <div class="row no-gutters">
                 <div class="col-md-3">
-                    <img src="https://via.placeholder.com/300x300.png?text=No Image" alt="No image" class="card-img">
+                    <img src="{{ $article->image_path ?? config('CONST.NO_IMAGE_ARTICLES') }}" alt="" class="card-img">
                 </div>
                 <div class="col-md-9">
                     <div class="card-body">

@@ -14,5 +14,4 @@ return [
     'confirm' => 'Confirm',
     'profile' => 'Profile',
     'articles' => 'Articles',
-
 ];

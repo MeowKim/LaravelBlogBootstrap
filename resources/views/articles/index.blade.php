@@ -16,7 +16,7 @@
 <div class="card mt-3">
     <div class="row no-gutters">
         <div class="col-md-3">
-            <img src="https://via.placeholder.com/300x300.png?text=No Image" alt="No image" class="card-img">
+            <img src="{{ $article->image_path ?? config('CONST.NO_IMAGE_ARTICLES') }}" alt="" class="card-img">
         </div>
         <div class="col-md-9">
             <div class="card-body">

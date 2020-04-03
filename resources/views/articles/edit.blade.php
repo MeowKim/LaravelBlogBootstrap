@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('articles.update', $article->id) }}" method="post">
+<form action="{{ route('articles.update', $article->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
 
@@ -21,6 +21,20 @@
         <p class="invalid-feedback">{{ $message }}</p>
         @enderror
     </div>
+    <div class="form-group">
+        <label for="image">{{ __('ui/articles.image') }}</label>
+        <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+        @error('image')
+        <p class="invalid-feedback">{{ $message }}</p>
+        @enderror
+    </div>
+    @if (isset($article->image_path))
+    <div class="form-group">
+        <label>{{ __('ui/articles.current_image') }}</label>
+        <img src="{{ $article->image_path }}" alt="" class="d-block">
+        <span class="text-muted d-block">{{ $article->image_name }}</span>
+    </div>
+    @endif
 
     <div class="mt-3 text-right">
         @if (Auth::user()->id == $article->created_by)

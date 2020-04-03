@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('articles.store') }}" method="post">
+<form action="{{ route('articles.store') }}" method="post" enctype="multipart/form-data">
     @csrf
 
     <div class="form-group">
@@ -21,9 +21,9 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="img">{{ __('ui/articles.image') }}</label>
-        <input type="file" name="img" id="img" class="form-control @error('img') is-invalid @enderror">
-        @error('img')
+        <label for="image">{{ __('ui/articles.image') }}</label>
+        <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+        @error('image')
         <p class="invalid-feedback">{{ $message }}</p>
         @enderror
     </div>

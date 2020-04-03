@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'image', 'image_name'
     ];
 
     /**
@@ -37,7 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function articles() {
+    public function articles()
+    {
         return $this->hasMany('App\Models\Article', 'created_by')->orderBy('created_at', 'desc');
+    }
+
+    public function getImagePathAttribute()
+    {
+        return $this->image ? '/' . config('CONST.UPLOAD_PATH_PROFILE') . '/' . $this->image : null;
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUsersToArticlesTable extends Migration
+class ModifyArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,8 +16,8 @@ class AddUsersToArticlesTable extends Migration
         Schema::table('articles', function (Blueprint $table) {
             $table->bigInteger('created_by')->nullable()->unsigned()->after('created_at');
             $table->bigInteger('updated_by')->nullable()->unsigned()->after('updated_at');
-            $table->string('img_encrypted', 255)->nullable()->after('content');
-            $table->string('img', 255)->nullable()->after('content');
+            $table->string('image_name', 255)->nullable()->after('content');
+            $table->string('image', 255)->nullable()->after('content');
         });
     }
 
@@ -32,7 +32,7 @@ class AddUsersToArticlesTable extends Migration
             $table->dropColumn('created_by');
             $table->dropColumn('updated_by');
             $table->dropColumn('img');
-            $table->dropColumn('img_encrypted');
+            $table->dropColumn('img_name');
         });
     }
 }

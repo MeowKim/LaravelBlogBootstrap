@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('profile.update') }}" method="post">
+<form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
 
@@ -28,6 +28,21 @@
                         <p class="invalid-feedback">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="image">{{ __('ui/users.profile_image') }}</label>
+                        <input type="file" name="image" id="image"
+                            class="form-control @error('image') is-invalid @enderror">
+                        @error('image')
+                        <p class="invalid-feedback">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    @if (isset($user->image_path))
+                    <div class="form-group">
+                        <label>{{ __('ui/users.current_profile_image') }}</label>
+                        <img src="{{ $user->image_path }}" alt="" class="d-block">
+                        <span class="text-muted d-block">{{ $user->image_name }}</span>
+                    </div>
+                    @endif
 
                     <div class="mt-3 text-right">
                         <button type="submit" class="btn btn-primary ml-2">{{ __('ui/generals.submit') }}</button>
