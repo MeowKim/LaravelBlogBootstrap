@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateArticle;
-use App\Http\Requests\DeleteArticle;
-use App\Http\Requests\UpdateArticle;
+use App\Http\Requests\CreateArticleReqeust;
+use App\Http\Requests\DeleteArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\Storage;
@@ -41,7 +41,7 @@ class ArticleController extends Controller
     }
 
     // 저장
-    public function store(CreateArticle $request)
+    public function store(CreateArticleReqeust $request)
     {
         $user = $request->user();
         $article = new Article();
@@ -86,7 +86,7 @@ class ArticleController extends Controller
     }
 
     // 업데이트
-    public function update(UpdateArticle $request)
+    public function update(UpdateArticleRequest $request)
     {
         $user = $request->user();
         $article = Article::findOrFail($request->route('article'));
@@ -113,7 +113,7 @@ class ArticleController extends Controller
     }
 
     // 삭제
-    public function destroy(DeleteArticle $request)
+    public function destroy(DeleteArticleRequest $request)
     {
         $article = Article::findOrFail($request->route('article'));
 

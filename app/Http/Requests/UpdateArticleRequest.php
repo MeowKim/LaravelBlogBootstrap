@@ -6,7 +6,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteArticle extends FormRequest
+class UpdateArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,9 @@ class DeleteArticle extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'bail|required|max:255',
+            'content' => 'required',
+            'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
         ];
     }
 }

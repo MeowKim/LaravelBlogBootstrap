@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProfile extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class UpdateProfile extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'bail|required|string|max:255',
-            'email' => 'bail|required|string|email|max:255|unique:users,email,' . $this->user()->id,
+            'current_password' => 'password',
+            'new_password' => 'bail|required|string|min:8|different:current_password|confirmed',
         ];
     }
 }

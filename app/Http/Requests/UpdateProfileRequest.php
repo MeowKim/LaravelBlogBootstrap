@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Article;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateArticle extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,10 +13,7 @@ class UpdateArticle extends FormRequest
      */
     public function authorize()
     {
-        $user = User::find($this->user()->id);
-        $article = Article::find($this->route('article'));
-
-        return $article && ($article->created_by === $user->id);
+        return true;
     }
 
     /**
@@ -29,9 +24,8 @@ class UpdateArticle extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'bail|required|max:255',
-            'content' => 'required',
-            'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
+            'name' => 'bail|required|string|max:255',
+            'email' => 'bail|required|string|email|max:255|unique:users,email,' . $this->user()->id,
         ];
     }
 }
