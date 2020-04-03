@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateArticleReqeust;
+use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\DeleteArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
@@ -41,7 +41,7 @@ class ArticleController extends Controller
     }
 
     // 저장
-    public function store(CreateArticleReqeust $request)
+    public function store(CreateArticleRequest $request)
     {
         $user = $request->user();
         $article = new Article();

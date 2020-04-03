@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdatePassword;
-use App\Http\Requests\UpdateProfile;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +38,7 @@ class ProfileController extends Controller
     }
 
     // 업데이트
-    public function update(UpdateProfile $request)
+    public function update(UpdateProfileRequest $request)
     {
         $user = User::findOrFail($request->user()->id);
         $user->name = $request->name;
@@ -69,7 +69,7 @@ class ProfileController extends Controller
     }
 
     // 비밀번호 업데이트
-    public function updatePassword(UpdatePassword $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
         $user = User::findOrFail($request->user()->id);
         $user->password = bcrypt($request->new_password);
