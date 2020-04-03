@@ -29,6 +29,7 @@ class ArticleController extends Controller
             ->with('creator', 'updater')
             ->orderBy('created_at', 'desc')
             ->paginate(5);
+        $articles->appends(['keyword' => request('keyword')]);
 
         return view('articles.index', compact('articles'));
     }
