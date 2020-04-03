@@ -49,11 +49,10 @@ class ProfileController extends Controller
         if ($request->has('image')) {
             $uploaded_file = $request->file('image');
             $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_PROFILE'), config('CONST.DISK'), $user->name);
-            $disk = Storage::disk(config('CONST.DISK'));
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_PROFILE') . '/' . $user->image;
 
-            if ($disk->exists($current_file_path)) {
-                $disk->delete($current_file_path);
+            if (Storage::exists($current_file_path)) {
+                Storage::delete($current_file_path);
             }
 
             $user->image_name = $uploaded_file->getClientOriginalName();

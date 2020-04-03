@@ -52,11 +52,10 @@ class ArticleController extends Controller
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');
             $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
-            $disk = Storage::disk(config('CONST.DISK'));
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
-            if ($disk->exists($current_file_path)) {
-                $disk->delete($current_file_path);
+            if (Storage::exists($current_file_path)) {
+                Storage::delete($current_file_path);
             }
 
             $article->image_name = $uploaded_file->getClientOriginalName();
@@ -97,11 +96,10 @@ class ArticleController extends Controller
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');
             $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
-            $disk = Storage::disk(config('CONST.DISK'));
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
-            if ($disk->exists($current_file_path)) {
-                $disk->delete($current_file_path);
+            if (Storage::exists($current_file_path)) {
+                Storage::delete($current_file_path);
             }
 
             $article->image_name = $uploaded_file->getClientOriginalName();
@@ -117,6 +115,15 @@ class ArticleController extends Controller
     public function destroy(DeleteArticle $request)
     {
         $article = Article::findOrFail($request->route('article'));
+
+        if ($article->image) {
+            $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
+
+            if (Storage::exists($current_file_path)) {
+                Storage::delete($current_file_path);
+            }
+        }
+
         $article->delete();
 
         return redirect()->route('articles.index');

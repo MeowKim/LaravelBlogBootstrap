@@ -31,6 +31,7 @@ class UpdateArticle extends FormRequest
         return [
             'title' => 'bail|required|max:255',
             'content' => 'required',
+            'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
         ];
     }
 }
