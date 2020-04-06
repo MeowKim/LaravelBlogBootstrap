@@ -15,10 +15,14 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <title>{{ config('app.name') }}</title>
+
 </head>
 
 <body>
+    @include('sweetalert::alert')
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm mb-3">
             <div class="container">

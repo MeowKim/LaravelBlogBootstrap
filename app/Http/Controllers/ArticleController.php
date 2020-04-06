@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ArticleController extends Controller
 {
@@ -108,6 +109,7 @@ class ArticleController extends Controller
         }
 
         $article->save();
+        Alert::success(null, __('msg/articles.updated'));
 
         return redirect()->route('articles.show', $article->id);
     }
@@ -126,6 +128,7 @@ class ArticleController extends Controller
         }
 
         $article->delete();
+        Alert::success(null, __('msg/articles.deleted'));
 
         return redirect()->route('articles.index');
     }

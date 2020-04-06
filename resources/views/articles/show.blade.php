@@ -24,13 +24,23 @@
 </div>
 
 <div class="mt-3 text-right">
-    @if (Auth::user()->id == $article->created_by)
+    @if (Auth::user()->id === $article->created_by)
     <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary">{{ __('ui/generals.edit') }}</a>
     <form action="{{ route('articles.destroy', $article->id) }}" method="post">
         @csrf
         @method('delete')
 
-        <button type="submit" class="btn btn-danger ml-2">{{ __('ui/generals.delete') }}</button>
+        <button type="submit" class="btn btn-danger ml-2" onclick="event.preventDefault(); Swal.fire({
+                icon: 'question', 
+                title: null, 
+                text: '{{ __('msg/articles.confirm_delete') }}', 
+                showCancelButton: true,
+            })
+            .then((result) => { 
+                if(result.value === true) {
+                    $(this).parent('form').submit();;
+                }
+            })">{{ __('ui/generals.delete') }}</button>
     </form>
     @endif
 

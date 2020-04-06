@@ -11,9 +11,7 @@ return [
     'confirm_password' => 'Confirm Password',
     'change_password' => 'Change password.',
     'reset_password' => 'Reset Password',
+    'remember_me' => 'Remember Me',
     'forgot_password' => 'Forgot Your Password?',
     'send_reset_password_link' => 'Send Password Reset Link',
-    'plz_confirm_password' => 'Please confirm your password before continuing.',
-    'password_changed' => 'Your password has been changed.',
-    'remember_me' => 'Remember Me',
 ];

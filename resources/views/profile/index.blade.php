@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
-
 <div class="profile row">
     <div class="left-container col-md-3">
         {{-- <h4>&nbsp;</h4> --}}

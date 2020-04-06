@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileController extends Controller
 {
@@ -58,6 +59,7 @@ class ProfileController extends Controller
         }
 
         $user->save();
+        Alert::success(null, __('msg/users.profile_changed'));
 
         return redirect()->route('profile.index');
     }
@@ -74,7 +76,8 @@ class ProfileController extends Controller
         $user = User::findOrFail($request->user()->id);
         $user->password = bcrypt($request->new_password);
         $user->save();
+        Alert::success(null, __('msg/users.password_changed'));
 
-        return redirect()->route('profile.index')->with('success', __('ui/users.password_changed'));
+        return redirect()->route('profile.index');
     }
 }
