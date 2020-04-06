@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// 게시물
+Route::resource('articles', 'Api\ArticleController')->only('index', 'show');
