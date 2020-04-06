@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\DeleteArticleRequest;
+use App\Http\Requests\EditArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Traits\FileUploadTrait;
@@ -79,9 +80,9 @@ class ArticleController extends Controller
     }
 
     // 수정 폼
-    public function edit()
+    public function edit(EditArticleRequest $request)
     {
-        $article = Article::findOrFail(request()->route('article'));
+        $article = Article::findOrFail($request->route('article'));
 
         return view('articles.edit', compact('article'));
     }

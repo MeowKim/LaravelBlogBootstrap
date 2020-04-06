@@ -15,10 +15,12 @@
         </div>
         <div class="row mt-5 mb-5">
             <div class="col-lg-12 text-center">
+                @can('update', $user)
                 <a href="{{ route('profile.edit') }}" class="btn btn-block btn-primary">{{ __('ui/generals.edit') }}</a>
                 <a href="{{ route('profile.password.change') }}" class="btn btn-link">
                     {{ __('ui/users.change_password') }}
                 </a>
+                @endcan
             </div>
         </div>
     </div>

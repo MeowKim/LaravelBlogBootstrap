@@ -7,9 +7,11 @@
             value="{{ request('keyword') }}">
         <button type="submit" class="btn btn-info text-white float-left ml-1">{{ __('ui/generals.search') }}</button>
     </form>
+    @can('create', \App\Models\Article::class)
     <a href="{{ route('articles.index') }}"
         class="btn bg-secondary text-white float-left ml-1">{{ __('ui/generals.reset') }}</a>
     <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">{{ __('ui/generals.write') }}</a>
+    @endcan
 </div>
 
 @forelse ($articles as $article)

@@ -24,8 +24,10 @@
 </div>
 
 <div class="mt-3 text-right">
-    @if (Auth::user()->id === $article->created_by)
+    @can('update', $article)
     <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary">{{ __('ui/generals.edit') }}</a>
+    @endcan
+    @can('delete', $article)
     <form action="{{ route('articles.destroy', $article->id) }}" method="post">
         @csrf
         @method('delete')
@@ -42,8 +44,7 @@
                 }
             })">{{ __('ui/generals.delete') }}</button>
     </form>
-    @endif
-
+    @endcan
     <a href="{{ route('articles.index') }}" class="btn bg-secondary text-white ml-2">{{ __('ui/generals.list') }}</a>
 </div>
 @endsection

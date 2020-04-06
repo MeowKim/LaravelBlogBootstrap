@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePasswordRequest extends FormRequest
+class EditArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,9 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $article = Article::find($this->route('article'));
+
+        return $article && $this->user()->can('update', $article);
     }
 
     /**
@@ -25,8 +27,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'current_password' => 'password',
-            'new_password' => 'bail|required|string|min:8|different:current_password|confirmed',
+            //
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Article;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteArticleRequest extends FormRequest
@@ -15,10 +14,9 @@ class DeleteArticleRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = User::find($this->user()->id);
         $article = Article::find($this->route('article'));
 
-        return $article && ($article->created_by === $user->id);
+        return $article && $this->user()->can('update', $article);
     }
 
     /**
