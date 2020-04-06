@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="text-right">
-    <form action="" method="get">
-        <input type="text" class="form-control col-md-4 float-left" placeholder="Search.." name="keyword" id="keyword"
-            value="{{ request('keyword') }}">
-        <button type="submit" class="btn btn-info text-white float-left ml-1">{{ __('ui/generals.search') }}</button>
-    </form>
-    @can('create', \App\Models\Article::class)
-    <a href="{{ route('articles.index') }}"
-        class="btn bg-secondary text-white float-left ml-1">{{ __('ui/generals.reset') }}</a>
-    <a href="{{ route('articles.create') }}" class="btn btn-primary text-white">{{ __('ui/generals.write') }}</a>
-    @endcan
+<div class="row">
+    <div class="col-md-8">
+        <form action="" method="get">
+            <input type="text" class="form-control col-md-6 d-inline mt-1 mr-1" placeholder="Search.." name="keyword"
+                id="keyword" value="{{ request('keyword') }}">
+            <button type="submit" class="btn btn-info text-white mt-1 mr-1">{{ __('ui/generals.search') }}</button>
+        </form>
+        <a href="{{ route('articles.index') }}"
+            class="btn bg-secondary text-white mt-1">{{ __('ui/generals.reset') }}</a>
+    </div>
+
+    <div class="col-md-4 text-right">
+        @can('create', \App\Models\Article::class)
+        <a href="{{ route('articles.create') }}"
+            class="btn btn-primary text-white mt-1">{{ __('ui/generals.write') }}</a>
+        @endcan
+    </div>
 </div>
 
 @forelse ($articles as $article)

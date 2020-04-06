@@ -3,7 +3,6 @@
 @section('content')
 <div class="profile row">
     <div class="left-container col-md-3">
-        {{-- <h4>&nbsp;</h4> --}}
         <div class="row mt-1">
             <div class="col-lg-12 col-lg-3 text-center">
                 <img src="{{ $user->image_path ?? config('CONST.NO_IMAGE_PROFILE') }}" alt="">
