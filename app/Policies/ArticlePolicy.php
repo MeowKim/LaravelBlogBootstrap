@@ -25,7 +25,7 @@ class ArticlePolicy
      * Determine whether the user can view the article.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return mixed
      */
     public function view(User $user, Article $article)
@@ -48,7 +48,7 @@ class ArticlePolicy
      * Determine whether the user can update the article.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return mixed
      */
     public function update(User $user, Article $article)
@@ -60,7 +60,7 @@ class ArticlePolicy
      * Determine whether the user can delete the article.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Article  $article
+     * @param  \App\Models\Article  $article
      * @return mixed
      */
     public function delete(User $user, Article $article)
