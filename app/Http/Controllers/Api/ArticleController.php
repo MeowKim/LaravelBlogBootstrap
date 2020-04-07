@@ -58,7 +58,7 @@ class ArticleController extends Controller
 
     public function show()
     {
-        return new ArticleReSource(Article::find(request()->route('article')));
+        return new ArticleReSource(Article::findOrFail(request()->route('article')));
     }
 
     public function update(UpdateArticleRequest $request)
