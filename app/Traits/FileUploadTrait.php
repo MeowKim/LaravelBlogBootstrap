@@ -10,7 +10,7 @@ trait FileUploadTrait
     public function uploadFile(UploadedFile $uploadedFile, $path = null, $disk = 'public', $user = 'guest')
     {
         $filename = date('YmdHis') . '_' . Str::slug($user) . '_' . Str::random(25);
-        $filename .=  '.' . $uploadedFile->getClientOriginalExtension();
+        $filename .=  '.' . strtolower($uploadedFile->getClientOriginalExtension());
 
         return $uploadedFile->storeAs($path, $filename, $disk);
     }
