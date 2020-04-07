@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
+use App\Http\Resources\Article as ArticleResource;
+use App\Http\Resources\ArticleCollection;
 use App\Models\Article;
 use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Storage;
@@ -20,10 +22,9 @@ class ArticleController extends Controller
         })
             ->with('creator', 'updater')
             ->orderBy('created_at', 'desc')
-            ->paginate(request()->input('pagination', 5));
-        $articles->appends(request()->input());
+            ->paginate(request()->input('pagination'));
 
-        return response()->json($articles, 200);
+        return new ArticleCollection($articles);
     }
 
     public function store(CreateArticleRequest $request)
@@ -57,9 +58,6 @@ class ArticleController extends Controller
 
     public function show()
     {
-        $article = Article::with('creator', 'updater')
-            ->findOrFail(request()->route('article'));
-
-        return response()->json($article, 200);
+        return new ArticleReSource(Article::find(request()->route('article')));
     }
 }
