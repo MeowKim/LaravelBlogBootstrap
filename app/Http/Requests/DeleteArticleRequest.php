@@ -15,8 +15,9 @@ class DeleteArticleRequest extends FormRequest
     public function authorize()
     {
         $article = Article::find($this->route('article'));
+        $is_api = $this->route()->getPrefix() === 'api';
 
-        return $article && $this->user()->can('update', $article);
+        return $article && ($is_api || $this->user()->can('update', $article));
     }
 
     /**

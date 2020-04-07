@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // 게시물
-Route::resource('articles', 'Api\ArticleController')->only('index', 'show', 'store', 'update', 'destory');
+Route::resource('articles', 'Api\ArticleController')->except('create', 'edit');

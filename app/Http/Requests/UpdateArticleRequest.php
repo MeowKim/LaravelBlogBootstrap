@@ -15,8 +15,9 @@ class UpdateArticleRequest extends FormRequest
     public function authorize()
     {
         $article = Article::find($this->route('article'));
+        $is_api = $this->route()->getPrefix() === 'api';
 
-        return $article && $this->user()->can('update', $article);
+        return $article && ($is_api || $this->user()->can('update', $article));
     }
 
     /**
@@ -27,9 +28,9 @@ class UpdateArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'bail|required|max:255',
-            'content' => 'required',
-            'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
+            // 'title' => 'bail|required|max:255',
+            // 'content' => 'required',
+            // 'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
         ];
     }
 }
