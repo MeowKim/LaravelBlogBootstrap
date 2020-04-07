@@ -14,9 +14,9 @@ class EditArticleRequest extends FormRequest
      */
     public function authorize()
     {
-        $article = Article::find($this->route('article'));
+        $article = Article::findOrFail($this->route('article'));
 
-        return $article && $this->user()->can('update', $article);
+        return $this->user()->can('update', $article);
     }
 
     /**

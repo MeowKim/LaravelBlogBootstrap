@@ -14,10 +14,10 @@ class UpdateArticleRequest extends FormRequest
      */
     public function authorize()
     {
-        $article = Article::find($this->route('article'));
+        $article = Article::findOrFail($this->route('article'));
         $is_api = $this->route()->getPrefix() === 'api';
 
-        return $article && ($is_api || $this->user()->can('update', $article));
+        return $is_api || $this->user()->can('update', $article);
     }
 
     /**
