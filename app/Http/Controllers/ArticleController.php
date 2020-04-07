@@ -52,7 +52,7 @@ class ArticleController extends Controller
         $article->created_by = $user->id;
         $article->updated_by = $user->id;
 
-        if (request()->has('image')) {
+        if ($request->has('image')) {
             $uploaded_file = $request->file('image');
             $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
