@@ -22,7 +22,7 @@ class ArticleController extends Controller
         })
             ->with('creator', 'updater')
             ->orderBy('created_at', 'desc')
-            ->paginate(request()->input('pagination'));
+            ->paginate(request()->input('per_page'));
 
         return new ArticleCollection($articles);
     }

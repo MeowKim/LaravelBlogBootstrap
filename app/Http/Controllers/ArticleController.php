@@ -30,7 +30,7 @@ class ArticleController extends Controller
         })
             ->with('creator', 'updater')
             ->orderBy('created_at', 'desc')
-            ->paginate(request()->input('pagination', 5));
+            ->paginate(request()->input('per_page'));
         $articles->appends(request()->input());
 
         return view('articles.index', compact('articles'));
