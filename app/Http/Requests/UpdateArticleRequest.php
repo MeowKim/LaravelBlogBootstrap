@@ -28,9 +28,9 @@ class UpdateArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'title' => 'bail|required|max:255',
-            // 'content' => 'required',
-            // 'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
+            'title' => 'bail|required|max:255',
+            'content' => 'required',
+            'image' => 'bail|mimes:jpeg,jpg,png,gif|max:10240',
         ];
     }
 }
