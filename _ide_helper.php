@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 7.3.0 on 2020-04-03 17:16:12.
+ * Generated for Laravel 7.3.0 on 2020-04-08 16:56:28.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -10142,7 +10142,9 @@ namespace Illuminate\Support\Facades {
          * Gets the preferred format for the response by inspecting, in the following order:
          *   * the request format set using setRequestFormat
          *   * the values of the Accept HTTP header
-         *   * the content type of the body of the request.
+         * 
+         * Note that if you use this method, you should send the "Vary: Accept" header
+         * in the response to prevent any issues with intermediary HTTP caches.
          *
          * @static 
          */ 
@@ -15158,6 +15160,481 @@ namespace Illuminate\Support {
  
 }
 
+namespace RealRashid\SweetAlert\Facades { 
+
+    /**
+     * 
+     *
+     */ 
+    class Alert {
+        
+        /**
+         * The default configuration for middleware alert.
+         *
+         * @return \RealRashid\SweetAlert\$config 
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function middleware()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->middleware();
+        }
+        
+        /**
+         * Flash an alert message.
+         *
+         * @param string $title
+         * @param string $text
+         * @param array $icon
+         * @return void 
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function alert($title = '', $text = '', $icon = null)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        $instance->alert($title, $text, $icon);
+        }
+        
+        /**
+         * Display a success typed alert message with a text and a title.
+         *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function success($title = '', $text = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->success($title, $text);
+        }
+        
+        /**
+         * Display a info typed alert message with a text and a title.
+         *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function info($title = '', $text = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->info($title, $text);
+        }
+        
+        /**
+         * Display a warning typed alert message with a text and a title.
+         *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function warning($title = '', $text = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->warning($title, $text);
+        }
+        
+        /**
+         * Display a question typed alert message with a text and a title.
+         *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function question($title = '', $text = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->question($title, $text);
+        }
+        
+        /**
+         * Display a error typed alert message with a text and a title.
+         *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function error($title = '', $text = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->error($title, $text);
+        }
+        
+        /**
+         * Display a message with a custom image and CSS animation disabled.
+         *
+         * @param string $title
+         * @param string $text
+         * @param string $imageUrl
+         * @param integer $imageWidth
+         * @param integer $imageHeight
+         * @param string $imageAlt
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function image($title, $text, $imageUrl, $imageWidth = 400, $imageHeight = 200, $imageAlt = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->image($title, $text, $imageUrl, $imageWidth, $imageHeight, $imageAlt);
+        }
+        
+        /**
+         * Display a html typed alert message with html code.
+         *
+         * @param string $title
+         * @param string $code
+         * @param string $icon
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function html($title = '', $code = '', $icon = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->html($title, $code, $icon);
+        }
+        
+        /**
+         * Display a toast message
+         *
+         * @param string $title
+         * @param string $icon
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function toast($title = '', $icon = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->toast($title, $icon);
+        }
+        
+        /**
+         * Convert any alert modal to Toast
+         *
+         * @param string $position
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function toToast($position = '')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->toToast($position);
+        }
+        
+        /**
+         * Convert any alert modal to html
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function toHtml()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->toHtml();
+        }
+        
+        /**
+         * Add a custom image to alert
+         *
+         * @param string $imageUrl
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function addImage($imageUrl)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->addImage($imageUrl);
+        }
+        
+        /**
+         * Add footer section to alert()
+         *
+         * @param string $code
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function footer($code)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->footer($code);
+        }
+        
+        /**
+         * positioned alert dialog
+         *
+         * @param string $position
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function position($position = 'top-end')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->position($position);
+        }
+        
+        /**
+         * Modal window width
+         * including paddings
+         * (box-sizing: border-box).
+         * 
+         * Can be in px or %. The default width is 32rem
+         *
+         * @param string $width
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function width($width = '32rem')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->width($width);
+        }
+        
+        /**
+         * Modal window padding.
+         * 
+         * The default padding is 1.25rem.
+         *
+         * @param string $padding
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function padding($padding = '1.25rem')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->padding($padding);
+        }
+        
+        /**
+         * Modal window background
+         * (CSS background property).
+         * 
+         * The default background is '#fff'.
+         *
+         * @param string $background
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function background($background = '#fff')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->background($background);
+        }
+        
+        /**
+         * Set to false if you want to
+         * focus the first element in tab
+         * order instead of "Confirm"-button by default.
+         *
+         * @param boolean $focus
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function focusConfirm($focus = true)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->focusConfirm($focus);
+        }
+        
+        /**
+         * Set to true if you want to focus the
+         * "Cancel"-button by default.
+         *
+         * @param boolean $focus
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function focusCancel($focus = false)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->focusCancel($focus);
+        }
+        
+        /**
+         * Custom animation with [Animate.css](https://daneden.github.io/animate.css/)
+         * CSS classes for animations when showing a popup (fade in):
+         * CSS classes for animations when hiding a popup (fade out):
+         *
+         * @param string $showAnimation
+         * @param string $hideAnimation
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function animation($showAnimation, $hideAnimation)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->animation($showAnimation, $hideAnimation);
+        }
+        
+        /**
+         * Persistent the alert modal
+         *
+         * @param boolean $showConfirmBtn
+         * @param boolean $showCloseBtn
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function persistent($showConfirmBtn = true, $showCloseBtn = false)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->persistent($showConfirmBtn, $showCloseBtn);
+        }
+        
+        /**
+         * auto close alert modal after
+         * specifid time
+         *
+         * @param integer $milliseconds
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function autoClose($milliseconds = 5000)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->autoClose($milliseconds);
+        }
+        
+        /**
+         * Display confirm button
+         *
+         * @param string $btnText
+         * @param string $btnColor
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function showConfirmButton($btnText = 'Ok', $btnColor = '#3085d6')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->showConfirmButton($btnText, $btnColor);
+        }
+        
+        /**
+         * Display cancel button
+         *
+         * @param string $btnText
+         * @param string $btnColor
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function showCancelButton($btnText = 'Cancel', $btnColor = '#aaa')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->showCancelButton($btnText, $btnColor);
+        }
+        
+        /**
+         * Display close button
+         *
+         * @param string $closeButtonAriaLabel
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function showCloseButton($closeButtonAriaLabel = 'aria-label')
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->showCloseButton($closeButtonAriaLabel);
+        }
+        
+        /**
+         * Hide close button from alert or toast
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function hideCloseButton()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->hideCloseButton();
+        }
+        
+        /**
+         * Apply default styling to buttons.
+         * 
+         * If you want to use your own classes (e.g. Bootstrap classes)
+         * set this parameter to false.
+         *
+         * @param boolean $buttonsStyling
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function buttonsStyling($buttonsStyling)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->buttonsStyling($buttonsStyling);
+        }
+        
+        /**
+         * Use any HTML inside icons (e.g. Font Awesome)
+         *
+         * @param string $iconHtml
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function iconHtml($iconHtml)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->iconHtml($iconHtml);
+        }
+        
+        /**
+         * If set to true, the timer will have a progress bar at the bottom of a popup.
+         * 
+         * Mostly, this feature is useful with toasts.
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function timerProgressBar()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->timerProgressBar();
+        }
+        
+        /**
+         * Reverse buttons position
+         *
+         * @author Faber44 <https://github.com/Faber44>
+         * @static 
+         */ 
+        public static function reverseButtons()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->reverseButtons();
+        }
+        
+        /**
+         * Flash the config options for alert.
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function flash()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->flash();
+        }
+        
+        /**
+         * Build Flash config options for flashing.
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function buildConfig()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->buildConfig();
+        }
+         
+    }
+ 
+}
+
 namespace Barryvdh\Debugbar { 
 
     /**
@@ -16029,475 +16506,561 @@ namespace Facade\Ignition\Facades {
  
 }
 
-namespace RealRashid\SweetAlert\Facades { 
+namespace Tymon\JWTAuth\Facades { 
 
     /**
      * 
      *
      */ 
-    class Alert {
+    class JWTAuth {
         
         /**
-         * The default configuration for middleware alert.
+         * Attempt to authenticate the user and return the token.
          *
-         * @return \RealRashid\SweetAlert\$config 
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param array $credentials
+         * @return false|string 
          * @static 
          */ 
-        public static function middleware()
+        public static function attempt($credentials)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->middleware();
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->attempt($credentials);
         }
         
         /**
-         * Flash an alert message.
+         * Authenticate a user via a token.
          *
-         * @param string $title
-         * @param string $text
-         * @param array $icon
-         * @return void 
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
          * @static 
          */ 
-        public static function alert($title = '', $text = '', $icon = null)
+        public static function authenticate()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        $instance->alert($title, $text, $icon);
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->authenticate();
         }
         
         /**
-         * Display a success typed alert message with a text and a title.
+         * Alias for authenticate().
          *
-         * @param string $title
-         * @param string $text
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
          * @static 
          */ 
-        public static function success($title = '', $text = '')
+        public static function toUser()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->success($title, $text);
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->toUser();
         }
         
         /**
-         * Display a info typed alert message with a text and a title.
+         * Get the authenticated user.
          *
-         * @param string $title
-         * @param string $text
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject 
          * @static 
          */ 
-        public static function info($title = '', $text = '')
+        public static function user()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->info($title, $text);
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->user();
         }
         
         /**
-         * Display a warning typed alert message with a text and a title.
+         * Generate a token for a given subject.
          *
-         * @param string $title
-         * @param string $text
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
+         * @return string 
          * @static 
          */ 
-        public static function warning($title = '', $text = '')
+        public static function fromSubject($subject)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->warning($title, $text);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->fromSubject($subject);
         }
         
         /**
-         * Display a question typed alert message with a text and a title.
+         * Alias to generate a token for a given user.
          *
-         * @param string $title
-         * @param string $text
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $user
+         * @return string 
          * @static 
          */ 
-        public static function question($title = '', $text = '')
+        public static function fromUser($user)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->question($title, $text);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->fromUser($user);
         }
         
         /**
-         * Display a error typed alert message with a text and a title.
+         * Refresh an expired token.
          *
-         * @param string $title
-         * @param string $text
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param bool $forceForever
+         * @param bool $resetClaims
+         * @return string 
          * @static 
          */ 
-        public static function error($title = '', $text = '')
+        public static function refresh($forceForever = false, $resetClaims = false)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->error($title, $text);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->refresh($forceForever, $resetClaims);
         }
         
         /**
-         * Display a message with a custom image and CSS animation disabled.
+         * Invalidate a token (add it to the blacklist).
          *
-         * @param string $title
-         * @param string $text
-         * @param string $imageUrl
-         * @param integer $imageWidth
-         * @param integer $imageHeight
-         * @param string $imageAlt
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param bool $forceForever
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function image($title, $text, $imageUrl, $imageWidth = 400, $imageHeight = 200, $imageAlt = '')
+        public static function invalidate($forceForever = false)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->image($title, $text, $imageUrl, $imageWidth, $imageHeight, $imageAlt);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->invalidate($forceForever);
         }
         
         /**
-         * Display a html typed alert message with html code.
+         * Alias to get the payload, and as a result checks that
+         * the token is valid i.e. not expired or blacklisted.
          *
-         * @param string $title
-         * @param string $code
-         * @param string $icon
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
-        public static function html($title = '', $code = '', $icon = '')
+        public static function checkOrFail()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->html($title, $code, $icon);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->checkOrFail();
         }
         
         /**
-         * Display a toast message
+         * Check that the token is valid.
          *
-         * @param string $title
-         * @param string $icon
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param bool $getPayload
+         * @return \Tymon\JWTAuth\Payload|bool 
          * @static 
          */ 
-        public static function toast($title = '', $icon = '')
+        public static function check($getPayload = false)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->toast($title, $icon);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->check($getPayload);
         }
         
         /**
-         * Convert any alert modal to Toast
+         * Get the token.
          *
-         * @param string $position
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Token|null 
          * @static 
          */ 
-        public static function toToast($position = '')
+        public static function getToken()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->toToast($position);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getToken();
         }
         
         /**
-         * Convert any alert modal to html
+         * Parse the token from the request.
          *
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function toHtml()
+        public static function parseToken()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->toHtml();
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->parseToken();
         }
         
         /**
-         * Add a custom image to alert
+         * Get the raw Payload instance.
          *
-         * @param string $imageUrl
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
-        public static function addImage($imageUrl)
+        public static function getPayload()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->addImage($imageUrl);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getPayload();
         }
         
         /**
-         * Add footer section to alert()
+         * Alias for getPayload().
          *
-         * @param string $code
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
-        public static function footer($code)
+        public static function payload()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->footer($code);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->payload();
         }
         
         /**
-         * positioned alert dialog
+         * Convenience method to get a claim value.
          *
-         * @param string $position
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param string $claim
+         * @return mixed 
          * @static 
          */ 
-        public static function position($position = 'top-end')
+        public static function getClaim($claim)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->position($position);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getClaim($claim);
         }
         
         /**
-         * Modal window width
-         * including paddings
-         * (box-sizing: border-box).
-         * 
-         * Can be in px or %. The default width is 32rem
+         * Create a Payload instance.
          *
-         * @param string $width
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
-        public static function width($width = '32rem')
+        public static function makePayload($subject)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->width($width);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->makePayload($subject);
         }
         
         /**
-         * Modal window padding.
-         * 
-         * The default padding is 1.25rem.
+         * Check if the subject model matches the one saved in the token.
          *
-         * @param string $padding
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param string|object $model
+         * @return bool 
          * @static 
          */ 
-        public static function padding($padding = '1.25rem')
+        public static function checkSubjectModel($model)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->padding($padding);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->checkSubjectModel($model);
         }
         
         /**
-         * Modal window background
-         * (CSS background property).
-         * 
-         * The default background is '#fff'.
+         * Set the token.
          *
-         * @param string $background
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param \Tymon\JWTAuth\Token|string $token
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function background($background = '#fff')
+        public static function setToken($token)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->background($background);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->setToken($token);
         }
         
         /**
-         * Set to false if you want to
-         * focus the first element in tab
-         * order instead of "Confirm"-button by default.
+         * Unset the current token.
          *
-         * @param boolean $focus
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function focusConfirm($focus = true)
+        public static function unsetToken()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->focusConfirm($focus);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->unsetToken();
         }
         
         /**
-         * Set to true if you want to focus the
-         * "Cancel"-button by default.
+         * Set the request instance.
          *
-         * @param boolean $focus
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param \Illuminate\Http\Request $request
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function focusCancel($focus = false)
+        public static function setRequest($request)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->focusCancel($focus);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->setRequest($request);
         }
         
         /**
-         * Custom animation with [Animate.css](https://daneden.github.io/animate.css/)
-         * CSS classes for animations when showing a popup (fade in):
-         * CSS classes for animations when hiding a popup (fade out):
+         * Set whether the subject should be "locked".
          *
-         * @param string $showAnimation
-         * @param string $hideAnimation
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param bool $lock
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function animation($showAnimation, $hideAnimation)
+        public static function lockSubject($lock)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->animation($showAnimation, $hideAnimation);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->lockSubject($lock);
         }
         
         /**
-         * Persistent the alert modal
+         * Get the Manager instance.
          *
-         * @param boolean $showConfirmBtn
-         * @param boolean $showCloseBtn
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Manager 
          * @static 
          */ 
-        public static function persistent($showConfirmBtn = true, $showCloseBtn = false)
+        public static function manager()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->persistent($showConfirmBtn, $showCloseBtn);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->manager();
         }
         
         /**
-         * auto close alert modal after
-         * specifid time
+         * Get the Parser instance.
          *
-         * @param integer $milliseconds
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Http\Parser\Parser 
          * @static 
          */ 
-        public static function autoClose($milliseconds = 5000)
+        public static function parser()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->autoClose($milliseconds);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->parser();
         }
         
         /**
-         * Display confirm button
+         * Get the Payload Factory.
          *
-         * @param string $btnText
-         * @param string $btnColor
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
-        public static function showConfirmButton($btnText = 'Ok', $btnColor = '#3085d6')
+        public static function factory()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->showConfirmButton($btnText, $btnColor);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->factory();
         }
         
         /**
-         * Display cancel button
+         * Get the Blacklist.
          *
-         * @param string $btnText
-         * @param string $btnColor
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Blacklist 
          * @static 
          */ 
-        public static function showCancelButton($btnText = 'Cancel', $btnColor = '#aaa')
+        public static function blacklist()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->showCancelButton($btnText, $btnColor);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->blacklist();
         }
         
         /**
-         * Display close button
+         * Set the custom claims.
          *
-         * @param string $closeButtonAriaLabel
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function showCloseButton($closeButtonAriaLabel = 'aria-label')
+        public static function customClaims($customClaims)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->showCloseButton($closeButtonAriaLabel);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->customClaims($customClaims);
         }
         
         /**
-         * Hide close button from alert or toast
+         * Alias to set the custom claims.
          *
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
          * @static 
          */ 
-        public static function hideCloseButton()
+        public static function claims($customClaims)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->hideCloseButton();
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->claims($customClaims);
         }
         
         /**
-         * Apply default styling to buttons.
-         * 
-         * If you want to use your own classes (e.g. Bootstrap classes)
-         * set this parameter to false.
+         * Get the custom claims.
          *
-         * @param boolean $buttonsStyling
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return array 
          * @static 
          */ 
-        public static function buttonsStyling($buttonsStyling)
+        public static function getCustomClaims()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->buttonsStyling($buttonsStyling);
+            //Method inherited from \Tymon\JWTAuth\JWT            
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getCustomClaims();
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     */ 
+    class JWTFactory {
+        
+        /**
+         * Create the Payload instance.
+         *
+         * @param bool $resetClaims
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function make($resetClaims = false)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->make($resetClaims);
         }
         
         /**
-         * Use any HTML inside icons (e.g. Font Awesome)
+         * Empty the claims collection.
          *
-         * @param string $iconHtml
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
-        public static function iconHtml($iconHtml)
+        public static function emptyClaims()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->iconHtml($iconHtml);
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->emptyClaims();
         }
         
         /**
-         * If set to true, the timer will have a progress bar at the bottom of a popup.
-         * 
-         * Mostly, this feature is useful with toasts.
+         * Build and get the Claims Collection.
          *
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @return \Tymon\JWTAuth\Claims\Collection 
          * @static 
          */ 
-        public static function timerProgressBar()
+        public static function buildClaimsCollection()
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->timerProgressBar();
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->buildClaimsCollection();
         }
         
         /**
-         * Reverse buttons position
+         * Get a Payload instance with a claims collection.
          *
-         * @author Faber44 <https://github.com/Faber44>
+         * @param \Tymon\JWTAuth\Claims\Collection $claims
+         * @return \Tymon\JWTAuth\Payload 
          * @static 
          */ 
-        public static function reverseButtons()
+        public static function withClaims($claims)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->reverseButtons();
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->withClaims($claims);
         }
         
         /**
-         * Flash the config options for alert.
+         * Set the default claims to be added to the Payload.
          *
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param array $claims
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
-        public static function flash()
+        public static function setDefaultClaims($claims)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->flash();
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setDefaultClaims($claims);
         }
         
         /**
-         * Build Flash config options for flashing.
+         * Helper to set the ttl.
          *
-         * @author Rashid Ali <realrashid05@gmail.com>
+         * @param int $ttl
+         * @return \Tymon\JWTAuth\Factory 
          * @static 
          */ 
-        public static function buildConfig()
+        public static function setTTL($ttl)
         {
-                        /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->buildConfig();
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setTTL($ttl);
+        }
+        
+        /**
+         * Helper to get the ttl.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getTTL()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getTTL();
+        }
+        
+        /**
+         * Get the default claims.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDefaultClaims()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getDefaultClaims();
+        }
+        
+        /**
+         * Get the PayloadValidator instance.
+         *
+         * @return \Tymon\JWTAuth\Validators\PayloadValidator 
+         * @static 
+         */ 
+        public static function validator()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->validator();
+        }
+        
+        /**
+         * Set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function customClaims($customClaims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->customClaims($customClaims);
+        }
+        
+        /**
+         * Alias to set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function claims($customClaims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->claims($customClaims);
+        }
+        
+        /**
+         * Get the custom claims.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCustomClaims()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getCustomClaims();
+        }
+        
+        /**
+         * Set the refresh flow flag.
+         *
+         * @param bool $refreshFlow
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function setRefreshFlow($refreshFlow = true)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setRefreshFlow($refreshFlow);
         }
          
     }
@@ -19413,11 +19976,15 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
+    class Alert extends \RealRashid\SweetAlert\Facades\Alert {}
+
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
 
     class Flare extends \Facade\Ignition\Facades\Flare {}
 
-    class Alert extends \RealRashid\SweetAlert\Facades\Alert {}
+    class JWTAuth extends \Tymon\JWTAuth\Facades\JWTAuth {}
+
+    class JWTFactory extends \Tymon\JWTAuth\Facades\JWTFactory {}
  
 }
 
