@@ -23,8 +23,8 @@ Route::resource('articles', 'Api\ArticleController')->except('create', 'edit');
 
 // 인증
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
-    route::post('login', 'AuthController@login');
-    route::post('logout', 'AuthController@logout');
-    route::post('refresh', 'AuthController@refresh');
-    route::post('me', 'AuthController@me');
+    route::post('login', 'Api\AuthController@login');
+    route::post('logout', 'Api\AuthController@logout');
+    route::post('refresh', 'Api\AuthController@refresh');
+    route::post('me', 'Api\AuthController@me');
 });
