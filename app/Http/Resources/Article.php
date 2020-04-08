@@ -19,8 +19,8 @@ class Article extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'image_path' => $this->image_path,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
             'creator' => $this->creator,
             'updater' => $this->updater,
         ];
