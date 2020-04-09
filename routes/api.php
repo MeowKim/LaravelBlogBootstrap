@@ -24,7 +24,7 @@ Route::group(['prefix' => 'auth'], function () {
     route::post('/me', 'Api\AuthController@me');
 });
 
-// fallback route
-Route::fallback(function () {
+// custom fallback route
+Route::any('{any}', function () {
     return response()->json(['message' => 'Not Found'], 404);
-});
+})->where('any', '.*');
