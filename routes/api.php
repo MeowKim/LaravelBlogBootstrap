@@ -17,9 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/articles', 'Api\ArticleController')->except('create', 'edit');
 
 // 인증
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
+Route::group(['prefix' => 'auth'], function () {
     route::post('/login', 'Api\AuthController@login');
     route::post('/logout', 'Api\AuthController@logout');
     route::post('/refresh', 'Api\AuthController@refresh');
     route::post('/me', 'Api\AuthController@me');
+});
+
+// fallback route
+Route::fallback(function () {
+    return response()->json(['message' => 'Not Found'], 404);
 });
