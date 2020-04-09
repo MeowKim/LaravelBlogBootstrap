@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 게시물
-Route::resource('articles', 'Api\ArticleController')->except('create', 'edit');
+Route::resource('/articles', 'Api\ArticleController')->except('create', 'edit');
 
 // 인증
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
-    route::post('login', 'Api\AuthController@login');
-    route::post('logout', 'Api\AuthController@logout');
-    route::post('refresh', 'Api\AuthController@refresh');
-    route::post('me', 'Api\AuthController@me');
+    route::post('/login', 'Api\AuthController@login');
+    route::post('/logout', 'Api\AuthController@logout');
+    route::post('/refresh', 'Api\AuthController@refresh');
+    route::post('/me', 'Api\AuthController@me');
 });
