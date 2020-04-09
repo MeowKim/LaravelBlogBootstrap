@@ -21,7 +21,7 @@ Route::group(['prefix' => 'auth'], function () {
     route::post('/login', 'Api\AuthController@login');
     route::post('/logout', 'Api\AuthController@logout');
     route::post('/refresh', 'Api\AuthController@refresh');
-    route::post('/me', 'Api\AuthController@me');
+    route::post('/user', 'Api\AuthController@user');
 });
 
 // custom fallback route
