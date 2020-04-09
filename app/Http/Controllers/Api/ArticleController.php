@@ -17,6 +17,16 @@ class ArticleController extends Controller
     // Traits
     use FileUploadTrait;
 
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $articles = Article::when(request('keyword'), function ($query, $keyword) {
@@ -34,13 +44,13 @@ class ArticleController extends Controller
         $article = new Article();
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->created_by = $request->created_by;
-        $article->updated_by = $request->updated_by;
+        $article->created_by = auth()->user()->id;
+        $article->updated_by = auth()->user()->id;
 
 
         if ($request->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $request->name ?? 'guest');
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->name);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {
@@ -66,11 +76,11 @@ class ArticleController extends Controller
         $article = Article::findOrFail($request->route('article'));
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->updated_by = $request->updated_by;
+        $article->updated_by = auth()->user()->id;
 
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $request->name ?? 'guest');
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->name);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {
