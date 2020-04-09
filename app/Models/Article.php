@@ -4,6 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Article
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $content
+ * @property string|null $image
+ * @property string|null $image_name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property bool|null $is_published
+ * @property-read \App\Models\User|null $creator
+ * @property-read mixed $image_path
+ * @property-read mixed $image_type
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereImageName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereIsPublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Article whereUpdatedBy($value)
+ * @mixin \Eloquent
+ */
 class Article extends Model
 {
     /**
