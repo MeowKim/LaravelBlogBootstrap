@@ -15,9 +15,8 @@ class UpdateArticleRequest extends FormRequest
     public function authorize()
     {
         $article = Article::findOrFail($this->route('article'));
-        $is_api = $this->route()->getPrefix() === 'api';
 
-        return $is_api || $this->user()->can('update', $article);
+        return $this->user()->can('update', $article);
     }
 
     /**
