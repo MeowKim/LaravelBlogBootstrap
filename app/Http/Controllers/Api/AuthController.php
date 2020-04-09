@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 
 class AuthController extends Controller
 {
@@ -39,7 +40,7 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return response()->json(auth()->guard('api')->user());
+        return new UserReSource(auth()->guard('api')->user());
     }
 
     /**
@@ -74,9 +75,11 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->guard('api')->factory()->getTTL() * 60
+            'data' => [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->guard('api')->factory()->getTTL() * 60
+            ]
         ]);
     }
 }
