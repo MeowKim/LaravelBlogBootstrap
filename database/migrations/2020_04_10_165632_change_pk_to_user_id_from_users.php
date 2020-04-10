@@ -14,6 +14,7 @@ class ChangePkToUserIdFromUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->unique('id');
             $table->dropPrimary();
             $table->primary('user_id');
         });
