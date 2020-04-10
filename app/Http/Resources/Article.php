@@ -22,12 +22,12 @@ class Article extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
             'creator' => [
-                'id' => $this->creator->id,
+                'user_id' => $this->creator->user_id,
                 'name' => $this->creator->name,
                 'email' => $this->creator->email,
             ],
             'updater' => [
-                'id' => $this->updater->id,
+                'user_id' => $this->updater->user_id,
                 'name' => $this->updater->name,
                 'email' => $this->updater->email,
             ],
