@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'id' => 'ID',
     'name' => 'Name',
     'email' => 'E-Mail Address',
     'profile_image' => 'Profile Image',

@@ -12,6 +12,23 @@
                         @csrf
 
                         <div class="form-group row">
+                            <label for="user_id"
+                                class="col-md-4 col-form-label text-md-right">{{ __('ui/users.id') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="user_id" type="text"
+                                    class="form-control @error('user_id') is-invalid @enderror" name="user_id"
+                                    value="{{ old('user_id') }}" required autocomplete="user_id" autofocus>
+
+                                @error('user_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="name"
                                 class="col-md-4 col-form-label text-md-right">{{ __('ui/users.name') }}</label>
 

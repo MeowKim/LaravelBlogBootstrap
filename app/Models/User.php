@@ -46,13 +46,17 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'image_name'
+        'user_id', 'name', 'email', 'password', 'image', 'image_name'
     ];
 
     /**
