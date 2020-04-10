@@ -49,8 +49,8 @@ class ArticleController extends Controller
         $article = new Article();
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->created_by = $user->id;
-        $article->updated_by = $user->id;
+        $article->created_by = $user->user_id;
+        $article->updated_by = $user->user_id;
 
         if ($request->has('image')) {
             $uploaded_file = $request->file('image');
@@ -94,7 +94,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($request->route('article'));
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->updated_by = $user->id;
+        $article->updated_by = $user->user_id;
 
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');

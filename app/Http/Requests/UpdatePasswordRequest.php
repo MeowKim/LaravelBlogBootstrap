@@ -25,7 +25,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'current_password' => 'password',
-            'new_password' => 'bail|required|string|min:8|different:current_password|confirmed',
+            'new_password' => 'bail|required|string|min:4|different:current_password|confirmed',
         ];
     }
 }

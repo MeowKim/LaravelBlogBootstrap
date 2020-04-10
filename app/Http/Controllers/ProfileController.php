@@ -23,7 +23,7 @@ class ProfileController extends Controller
     // 보기
     public function index()
     {
-        $user = User::findOrFail(request()->user()->id);
+        $user = User::findOrFail(request()->user()->user_id);
         $articles = $user->articles()->paginate(5);
         $user->setRelation('articles', $articles);
 
@@ -33,7 +33,7 @@ class ProfileController extends Controller
     // 수정 폼
     public function edit()
     {
-        $user = User::findOrFail(request()->user()->id);
+        $user = User::findOrFail(request()->user()->user_id);
 
         return view('profile.edit', compact('user'));
     }
@@ -41,7 +41,7 @@ class ProfileController extends Controller
     // 업데이트
     public function update(UpdateProfileRequest $request)
     {
-        $user = User::findOrFail($request->user()->id);
+        $user = User::findOrFail($request->user()->user_id);
         $user->name = $request->name;
         $user->email = $request->email;
 
@@ -73,7 +73,7 @@ class ProfileController extends Controller
     // 비밀번호 업데이트
     public function updatePassword(UpdatePasswordRequest $request)
     {
-        $user = User::findOrFail($request->user()->id);
+        $user = User::findOrFail($request->user()->user_id);
         $user->password = bcrypt($request->new_password);
         $user->save();
         Alert::success(null, __('msg/users.password_changed'));
