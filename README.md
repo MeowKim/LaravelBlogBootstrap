@@ -2,7 +2,7 @@
 
 ## Getting Start
 
-### Clone Repository
+### 1. Clone Repository
 
 ```
 git clone https://github.com/MeowKim/LaravelBlogBootstrap.git <DIRECTORY>
@@ -10,7 +10,7 @@ git clone https://github.com/MeowKim/LaravelBlogBootstrap.git <DIRECTORY>
 
 ex) git clone https://github.com/MeowKim/LaravelBlogBootstrap.git blog
 
-### Initialize
+### 2. Initialize
 
 ```
 cd <DIRECTORY>
@@ -18,9 +18,9 @@ cp .env.example .env
 composer install
 ```
 
-### Set Permission
+### 3. Set Permission (optional)
 
-(optional) Do this, if actual user is different from current user (ex. working with root credential)
+Do this, if actual user is different from current user (ex. working with root credential)
 
 ```
 chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
@@ -28,7 +28,7 @@ chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
 
 ex) chown -R user:group /home/user
 
-### Edit Environment Configuration (.env)
+### 4. Edit Environment Configuration (.env)
 
 ```
 vi .env
@@ -40,7 +40,7 @@ Following properties would be changed to proper values
 -   DB\_\*
 -   MAIL\_\*
 
-### DB Migratation
+### 5. DB Migratation
 
 ```
 php artisan migrate
