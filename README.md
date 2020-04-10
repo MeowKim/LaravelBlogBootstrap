@@ -16,7 +16,7 @@ composer install
 
 # Set Permission
 
-(optional) If actual user is different from current user(ex. root user)
+(optional) If actual user is different from current user (ex. root user)
 
 ```
 chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
