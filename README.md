@@ -14,7 +14,9 @@ cp .env.example .env
 composer install
 ```
 
-# Set Permission, if actual user is different from current user(ex. root user)
+# Set Permission
+
+(optional) If actual user is different from current user(ex. root user)
 
 ```
 chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
