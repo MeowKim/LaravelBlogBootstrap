@@ -24,7 +24,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['user_id', 'password']);
 
         if (!$token = auth()->guard('api')->attempt($credentials)) {
             return response()->json(['message' => __('auth.failed')], 401);

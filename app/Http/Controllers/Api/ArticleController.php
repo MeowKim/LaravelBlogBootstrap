@@ -44,13 +44,13 @@ class ArticleController extends Controller
         $article = new Article();
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->created_by = auth()->user()->id;
-        $article->updated_by = auth()->user()->id;
+        $article->created_by = auth()->user()->user_id;
+        $article->updated_by = auth()->user()->user_id;
 
 
         if ($request->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->name);
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->user_id);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {
@@ -76,11 +76,11 @@ class ArticleController extends Controller
         $article = Article::findOrFail($request->route('article'));
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->updated_by = auth()->user()->id;
+        $article->updated_by = auth()->user()->user_id;
 
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->name);
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), auth()->user()->user_id);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {

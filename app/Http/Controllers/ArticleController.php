@@ -54,7 +54,7 @@ class ArticleController extends Controller
 
         if ($request->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->user_id);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {
@@ -98,7 +98,7 @@ class ArticleController extends Controller
 
         if (request()->has('image')) {
             $uploaded_file = $request->file('image');
-            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->name);
+            $stored_file_path = $this->uploadFile($uploaded_file, config('CONST.UPLOAD_PATH_ARTICLES'), config('CONST.DISK'), $user->user_id);
             $current_file_path = '/' . config('CONST.UPLOAD_PATH_ARTICLES') . '/' . $article->image;
 
             if (Storage::exists($current_file_path)) {
