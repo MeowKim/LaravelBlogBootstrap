@@ -16,7 +16,10 @@ class ChangePkToUserIdFromUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->unique('id');
             $table->dropPrimary();
-            $table->primary('user_id');
+            $table->string('user_id', 20)->after('id')->primary();
+            $table->string('image_name', 255)->nullable()->after('password');
+            $table->string('image', 255)->nullable()->after('password');
+            $table->boolean('is_admin')->after('password')->default(false);
         });
     }
 
@@ -28,7 +31,13 @@ class ChangePkToUserIdFromUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropPrimary();
             $table->primary('id');
+            $table->dropUnique('users_unique_id');
+            $table->dropColumn('user_id');
+            $table->dropColumn('image_name');
+            $table->dropColumn('image');
+            $table->dropColumn('is_admin');
         });
     }
 }
