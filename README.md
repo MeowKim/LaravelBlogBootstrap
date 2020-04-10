@@ -1,31 +1,41 @@
 # Clone Repository
+
 ```
-git clone https://github.com/MeowKim/LaravelBlogBootstrap.git
+git clone https://github.com/MeowKim/LaravelBlogBootstrap.git <DIRECTORY>
 ```
 
+ex) git clone https://github.com/MeowKim/LaravelBlogBootstrap.git blog
+
 # Initialize
+
 ```
-cd LaravelBlogBootstrap  
-cp .env.example .env  
+cd <DIRECTORY>
+cp .env.example .env
 composer install
 ```
 
-# Migrate DB
+# Set Permission, if actual user is different from current user(ex. root user)
+
+```
+chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
+```
+
+ex) chown -R user:group /home/user
+
+# Edit Environment Configuration (.env)
+
+```
+vi .env
+```
+
+Following properties would be changed to proper values
+
+-   APP\_\*
+-   DB\_\*
+-   MAIL\_\*
+
+# DB Migratation
+
 ```
 php artisan migrate
-```
-
-# Set Permission
-```
-cd ..  
-mv LaravelBlogBootstrap <HOME_DIR>  
-chown -R <USER_NAME>:<USER_GROUP> <HOME_DIR>
-```
-
-# Set Web Server(Apache2) Configuration
-```
-vi /etc/apache2/sites-available/<SITE_NAME>.conf  
-...  
-a2ensite <SITE_NAME>  
-service apache2 restart
 ```
