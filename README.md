@@ -1,6 +1,9 @@
 # Laravel Blog /w Bootstrap
 
-## Getting Start
+A simple Blog powered by [PHP Laravel Framework](https://laravel.com/) that provides genenral Web & Rest API.  
+Check [Postman Documentation](https://documenter.getpostman.com/view/6527807/SzYgQaZe?version=latest) for api details.
+
+## Getting Started
 
 ### 1. Clone Repository
 
@@ -45,7 +48,3 @@ Following properties would be changed to proper values
 ```
 php artisan migrate
 ```
-
-## API
-
-[Postman Documentation](https://documenter.getpostman.com/view/6527807/SzYgQaZe?version=latest)
