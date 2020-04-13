@@ -15,7 +15,7 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
 
-    public function test_user_can_view_login()
+    public function test_guest_user_can_view_login()
     {
         $response = $this->get('login');
 
@@ -24,7 +24,7 @@ class LoginTest extends TestCase
         $response->assertViewIs('auth.login');
     }
 
-    public function test_user_cannot_view_login_authenticated()
+    public function test_authenticated_user_cannot_view_login()
     {
         $user = factory(User::class)->make();
         $response = $this->actingAs($user)->get('login');
