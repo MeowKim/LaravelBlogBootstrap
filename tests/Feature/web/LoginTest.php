@@ -36,7 +36,7 @@ class LoginTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGuestCanViewLogin()
+    public function testGuestCanViewLoginForm()
     {
         $response = $this->get('login');
 
@@ -45,7 +45,7 @@ class LoginTest extends TestCase
         $response->assertViewIs('auth.login');
     }
 
-    public function testUserCannotViewLogin()
+    public function testUserCannotViewLoginForm()
     {
         $response = $this->actingAs($this->_user)->get('login');
 
