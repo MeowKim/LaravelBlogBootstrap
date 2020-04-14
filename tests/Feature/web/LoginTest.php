@@ -14,57 +14,68 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+    protected User $_user;
+    protected string $_password;
 
-    public function test_guest_user_can_view_login()
+    // setup before each testing
+    public function setup(): void
+    {
+        parent::setUp();
+
+        $this->_password = 'valid-password';
+        $this->_user = factory(User::class)->create([
+            'password' => bcrypt($this->_password),
+        ]);
+    }
+
+    // clear db entries after each testing
+    public function tearDown(): void
+    {
+        $this->_user->delete();
+
+        parent::tearDown();
+    }
+
+    public function testGuestCanViewLogin()
     {
         $response = $this->get('login');
 
-        // guest user can view login with 200 OK
+        // guest can view login form
         $response->assertStatus(200);
         $response->assertViewIs('auth.login');
     }
 
-    public function test_authenticated_user_cannot_view_login()
+    public function testUserCannotViewLogin()
     {
-        $user = factory(User::class)->make();
-        $response = $this->actingAs($user)->get('login');
+        $response = $this->actingAs($this->_user)->get('login');
 
         // authenticated user cannot view login form
         // will be redirected to index
         $response->assertRedirect('');
     }
 
-    public function test_user_can_login_with_correct_credentials()
+    public function testGuestCanLoginWithValidCredentials()
     {
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = '1234'),
-        ]);
-
         $response = $this->post('login', [
-            'user_id' => $user->user_id,
-            'password' => $password,
+            'user_id' => $this->_user->user_id,
+            'password' => $this->_password,
         ]);
 
-        // user can login with correct credentials
+        // guest can login with valid credentials
         // will be redirected to index
         $response->assertRedirect('');
-        $this->assertAuthenticatedAs($user);
-
-        $user->delete();
+        $this->assertAuthenticatedAs($this->_user);
     }
 
-    public function test_user_cannot_login_with_incorrect_password()
+    public function testGuestCannotLoginWithInvalidCredentials()
     {
-        $user = factory(User::class)->create([
-            'password' => bcrypt('correct-password'),
-        ]);
 
         $response = $this->from('login')->post('login', [
-            'user_id' => $user->user_id,
+            'user_id' => $this->_user->user_id,
             'password' => 'invalid-password',
         ]);
 
-        // user cannot login with incorrect password
+        // guest cannot login with invalid credentials
         // will be redirected to login with error in 'user_id'
         // user_id has old input
         // password does not have old input
@@ -74,19 +85,37 @@ class LoginTest extends TestCase
         $this->assertTrue(session()->hasOldInput('user_id'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-
-        $user->delete();
     }
 
-    public function test_remember_me_functionality()
+    public function testThrottleFunctionality()
     {
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = '1234'),
-        ]);
+        foreach (range(0, 5) as $_) {
+            $response = $this->from('login')->post('login', [
+                'user_id' => $this->_user->user_id,
+                'password' => 'invalid-password',
+            ]);
+        }
 
+        // if guest tries to login more than 5 times per minute,
+        // they cannot tries again for a minute with TooManyLoginAtempt message.
+        $this->assertRegExp(
+            sprintf('/^%s$/', str_replace('\:seconds', '\d+', preg_quote(__('auth.throttle'), '/'))),
+            collect(
+                $response
+                    ->baseResponse
+                    ->getSession()
+                    ->get('errors')
+                    ->getBag('default')
+                    ->get('user_id')
+            )->first(),
+        );
+    }
+
+    public function testRemeberFunctionality()
+    {
         $response = $this->post('login', [
-            'user_id' => $user->user_id,
-            'password' => $password,
+            'user_id' => $this->_user->user_id,
+            'password' => $this->_password,
             'remember' => 'on',
         ]);
 
@@ -94,32 +123,42 @@ class LoginTest extends TestCase
         // will be redirected to index
         // cookie must be matched with credentials
         $response->assertRedirect('');
-        $this->assertAuthenticatedAs($user);
+        $this->assertAuthenticatedAs($this->_user);
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
-            $user->user_id,
-            $user->getRememberToken(),
-            $user->password,
+            $this->_user->user_id,
+            $this->_user->getRememberToken(),
+            $this->_user->password,
         ]));
-
-        $user->delete();
     }
 
-    public function test_send_password_reset_link()
+    public function testUserCanLogout()
+    {
+        $this->actingAs($this->_user);
+        $response = $this->post('logout');
+
+        // user can logout
+        // will be redirected to index
+        // must be guest
+        $response->assertRedirect('');
+        $this->assertGuest();
+    }
+
+
+
+    public function testSendPasswordResetLink()
     {
         Notification::fake();
 
-        $user = factory(User::class)->create();
-
         $response = $this->post('password/email', [
-            'email' => $user->email,
+            'email' => $this->_user->email,
         ]);
 
         // generated token(in password_resets) will not be null
         // must be matched with notification's token
-        $password_resets = DB::table('password_resets')->where('email', '=', $user->email);
+        $password_resets = DB::table('password_resets')->where('email', '=', $this->_user->email);
         $generated_token = $password_resets->first();
         $this->assertNotNull($generated_token);
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification, $channels) use ($generated_token) {
+        Notification::assertSentTo($this->_user, ResetPassword::class, function ($notification, $channels) use ($generated_token) {
             return Hash::check($notification->token, $generated_token->token) === true;
         });
 
