@@ -4,6 +4,7 @@ namespace Tests\Feature\web;
 
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected User $_user;
     protected string $_password;
 
@@ -26,14 +29,6 @@ class LoginTest extends TestCase
         $this->_user = factory(User::class)->create([
             'password' => bcrypt($this->_password),
         ]);
-    }
-
-    // clear something remaining permanently after each testing
-    public function tearDown(): void
-    {
-        $this->_user->delete();
-
-        parent::tearDown();
     }
 
     public function testGuestCanViewLoginForm()
@@ -162,7 +157,5 @@ class LoginTest extends TestCase
         Notification::assertSentTo($this->_user, ResetPassword::class, function ($notification, $channels) use ($generated_token) {
             return Hash::check($notification->token, $generated_token->token) === true;
         });
-
-        $password_resets->delete();
     }
 }

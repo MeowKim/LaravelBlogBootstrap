@@ -4,6 +4,7 @@ namespace Tests\Feature\web;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
@@ -12,6 +13,8 @@ use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected $_user_info;
     protected User $_user;
 
@@ -27,15 +30,6 @@ class RegisterTest extends TestCase
             'password' => 'correct-password',
             'password_confirmation' => 'correct-password',
         ];
-    }
-
-    // clear something remaining permanently after each testing
-    public function tearDown(): void
-    {
-        if (isset($this->_user))
-            $this->_user->delete();
-
-        parent::tearDown();
     }
 
     public function testGuestCanViewRegisterForm()
