@@ -28,7 +28,7 @@ class LoginTest extends TestCase
         ]);
     }
 
-    // clear db entries after each testing
+    // clear something remaining permanently after each testing
     public function tearDown(): void
     {
         $this->_user->delete();
@@ -76,9 +76,10 @@ class LoginTest extends TestCase
         ]);
 
         // guest cannot login with invalid credentials
-        // will be redirected to login with error in 'user_id'
-        // user_id has old input
-        // password does not have old input
+        // will be redirected to login
+        // session has errors with 'user_id'
+        // has old input 'user_id'
+        // does not have old input 'password'
         // must be still guest
         $response->assertRedirect('login');
         $response->assertSessionHasErrors('user_id');
@@ -119,9 +120,9 @@ class LoginTest extends TestCase
             'remember' => 'on',
         ]);
 
-        // user can login with correct credentials and remember turened on
+        // user can login with valid credentials and remember turened on
         // will be redirected to index
-        // cookie must be matched with credentials
+        // cookie must be matched with given credentials
         $response->assertRedirect('');
         $this->assertAuthenticatedAs($this->_user);
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
