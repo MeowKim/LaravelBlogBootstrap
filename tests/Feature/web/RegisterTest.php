@@ -96,7 +96,7 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 
     public function testGuestCannotRegisterWithoutName()
@@ -117,7 +117,7 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 
     public function testGuestCannotRegisterWithoutEmail()
@@ -138,7 +138,7 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('name'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 
     public function testGuestCannotRegisterWithoutPassword()
@@ -160,7 +160,7 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 
     public function testGuestCannotRegisterWithoutPasswordConfirmation()
@@ -182,7 +182,7 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 
     public function testGuestCannotRegisterWithPasswordsNotMatching()
@@ -204,6 +204,6 @@ class RegisterTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
-        $this->assertCount(0, User::where('user_id', '=', $this->_user_info['user_id'])->get());
+        $this->assertDatabaseMissing('users', ['user_id' => $this->_user_info['user_id']]);
     }
 }
