@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -72,7 +73,7 @@ class RegisterTest extends TestCase
         $this->assertEquals($this->_user_info['user_id'], $this->_user->user_id);
         $this->assertEquals($this->_user_info['name'], $this->_user->name);
         $this->assertEquals($this->_user_info['email'], $this->_user->email);
-        $this->assertTrue(password_verify($this->_user_info['password'], $this->_user->password));
+        $this->assertTrue(Hash::check($this->_user_info['password'], $this->_user->password));
         Event::assertDispatched(Registered::class, function ($e) {
             return $e->user->user_id === $this->_user->user_id;
         });
