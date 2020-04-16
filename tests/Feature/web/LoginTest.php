@@ -20,7 +20,7 @@ class LoginTest extends TestCase
     protected User $_user;
     protected string $_password;
 
-    // setup before each testing
+    // Setup before each testing
     public function setup(): void
     {
         parent::setUp();
@@ -31,60 +31,70 @@ class LoginTest extends TestCase
         ]);
     }
 
-    public function testGuestCanViewLoginForm()
+    public function testGuestShouldViewLoginForm()
     {
+        // Given: User is a guest. (Not logged in yet)
+        // When: User visits login page.
         $response = $this->get('login');
 
-        // guest can view login form
+        // Then: User should view login form.
         $response->assertStatus(200);
         $response->assertViewIs('auth.login');
     }
 
-    public function testUserCannotViewLoginForm()
+    public function testUserShouldNotViewLoginForm()
     {
-        $response = $this->actingAs($this->_user)->get('login');
+        // Given: User is autehnticated. (Alreay logged in)
+        $this->actingAs($this->_user);
 
-        // authenticated user cannot view login form
-        // will be redirected to index
+        // When: User visits login page.
+        $response = $this->get('login');
+
+        // Then: User should not view login form.
+        // And: User should be redirected to index page.
         $response->assertRedirect('');
     }
 
-    public function testGuestCanLoginWithValidCredentials()
+    public function testGuestShouldLoginWithValidCredentials()
     {
+        // Given: User is a guest. (Not logged in yet)
+        // When: User logs in with valid credentials.
         $response = $this->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
         ]);
 
-        // guest can login with valid credentials
-        // will be redirected to index
-        $response->assertRedirect('');
+        // Then: User should be authenticated.
+        // And: User should be redirected to index page.
         $this->assertAuthenticatedAs($this->_user);
+        $response->assertRedirect('');
     }
 
-    public function testGuestCannotLoginWithInvalidCredentials()
+    public function testGuestShouldNotLoginWithInvalidCredentials()
     {
-
+        // Given: User is a guest. (Not logged in yet)
+        // When: User logs in with invalid credentials.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => 'invalid-password',
         ]);
 
-        // guest cannot login with invalid credentials
-        // will be redirected to login
-        // session has errors with 'user_id'
-        // has old input 'user_id'
-        // does not have old input 'password'
-        // must be still guest
+        // Then: User should be guest.
+        // And: User should be redirected to login page.
+        // And: Session has errors with 'user_id'.
+        // And: Session has old input 'user_id'.
+        // ANd: Session does not have old input 'password'.
+        $this->assertGuest();
         $response->assertRedirect('login');
         $response->assertSessionHasErrors('user_id');
         $this->assertTrue(session()->hasOldInput('user_id'));
         $this->assertFalse(session()->hasOldInput('password'));
-        $this->assertGuest();
     }
 
     public function testThrottleFunctionality()
     {
+        // Given: User is a guest. (Not logged in yet)
+        // When: User tries to logs in with invalid credentials more than 5 times per minute.
         foreach (range(0, 5) as $_) {
             $response = $this->from('login')->post('login', [
                 'user_id' => $this->_user->user_id,
@@ -92,8 +102,8 @@ class LoginTest extends TestCase
             ]);
         }
 
-        // if guest tries to login more than 5 times per minute,
-        // they cannot tries again for a minute with TooManyLoginAtempt message.
+        // Then: Session has errors with 'user_id'.
+        // And: Session contains 'TooManyLoginAtempt' message.
         $this->assertRegExp(
             sprintf('/^%s$/', str_replace('\:seconds', '\d+', preg_quote(__('auth.throttle'), '/'))),
             collect(
@@ -109,17 +119,19 @@ class LoginTest extends TestCase
 
     public function testRemeberFunctionality()
     {
+        // Given: User is a guest. (Not logged in yet)
+        // When: User logs in with valid credentials & remeber turned on.
         $response = $this->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
             'remember' => 'on',
         ]);
 
-        // user can login with valid credentials and remember turened on
-        // will be redirected to index
-        // cookie must be matched with given credentials
-        $response->assertRedirect('');
+        // Then: User should be authenticated.
+        // And: User should be redirected to index page.
+        // And: Cookie should be matched with given credentials.
         $this->assertAuthenticatedAs($this->_user);
+        $response->assertRedirect('');
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
             $this->_user->user_id,
             $this->_user->getRememberToken(),
@@ -127,16 +139,18 @@ class LoginTest extends TestCase
         ]));
     }
 
-    public function testUserCanLogout()
+    public function testUserShouldLogout()
     {
+        // Given: User is autehnticated. (Alreay logged in)
         $this->actingAs($this->_user);
+
+        // When: User logs out.
         $response = $this->post('logout');
 
-        // user can logout
-        // will be redirected to index
-        // must be guest
-        $response->assertRedirect('');
+        // Then: User Should be guest.
+        // And: User should be redirected to index page.
         $this->assertGuest();
+        $response->assertRedirect('');
     }
 
 
@@ -145,17 +159,20 @@ class LoginTest extends TestCase
     {
         Notification::fake();
 
+        // Given: User is a guest. (Not logged in yet)
+        // When: User send password reset link to email.
         $response = $this->post('password/email', [
             'email' => $this->_user->email,
         ]);
 
-        // generated token(in password_resets) will not be null
-        // must be matched with notification's token
+        // Then: Token(in password_resets) should be generated successfully.
+        // And: Token should be matched with notification's token.
         $password_resets = DB::table('password_resets')->where('email', '=', $this->_user->email);
         $generated_token = $password_resets->first();
         $this->assertNotNull($generated_token);
-        Notification::assertSentTo($this->_user, ResetPassword::class, function ($notification, $channels) use ($generated_token) {
-            return Hash::check($notification->token, $generated_token->token) === true;
+
+        Notification::assertSentTo($this->_user, ResetPassword::class, function ($Notification, $channels) use ($generated_token) {
+            return Hash::check($Notification->token, $generated_token->token) === true;
         });
     }
 }
