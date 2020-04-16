@@ -45,7 +45,7 @@ class RegisterTest extends TestCase
 
     public function testUserShouldNotViewRegisterForm()
     {
-        // Given: User is autehnticated. (Alreay logged in)
+        // Given: User is autehnticated. (Already logged in)
         $this->actingAs(factory(User::class)->make());
 
         // When: User visits register page.

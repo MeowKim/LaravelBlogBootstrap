@@ -44,7 +44,7 @@ class LoginTest extends TestCase
 
     public function testUserShouldNotViewLoginForm()
     {
-        // Given: User is autehnticated. (Alreay logged in)
+        // Given: User is autehnticated. (Already logged in)
         $this->actingAs($this->_user);
 
         // When: User visits login page.
@@ -141,7 +141,7 @@ class LoginTest extends TestCase
 
     public function testUserShouldLogout()
     {
-        // Given: User is autehnticated. (Alreay logged in)
+        // Given: User is autehnticated. (Already logged in)
         $this->actingAs($this->_user);
 
         // When: User logs out.
