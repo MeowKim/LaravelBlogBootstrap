@@ -50,8 +50,7 @@ class LoginTest extends TestCase
         // When: User visits login page.
         $response = $this->get('login');
 
-        // Then: User should not view login form.
-        // And: User should be redirected to index page.
+        // Then: User should be redirected to index page.
         $response->assertRedirect('');
     }
 
@@ -59,7 +58,7 @@ class LoginTest extends TestCase
     {
         // Given: User is a guest. (Not logged in yet)
         // When: User logs in with valid credentials.
-        $response = $this->post('login', [
+        $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
         ]);
@@ -121,7 +120,7 @@ class LoginTest extends TestCase
     {
         // Given: User is a guest. (Not logged in yet)
         // When: User logs in with valid credentials & remeber turned on.
-        $response = $this->post('login', [
+        $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
             'remember' => 'on',
@@ -161,7 +160,7 @@ class LoginTest extends TestCase
 
         // Given: User is a guest. (Not logged in yet)
         // When: User send password reset link to email.
-        $response = $this->post('password/email', [
+        $response = $this->from('password/reset')->post('password/email', [
             'email' => $this->_user->email,
         ]);
 

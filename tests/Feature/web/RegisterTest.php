@@ -51,8 +51,7 @@ class RegisterTest extends TestCase
         // When: User visits register page.
         $response = $this->get('register');
 
-        // Then: User should not view register form.
-        // And: User should be redirected to index page.
+        // Then: User should be redirected to index page.
         $response->assertRedirect('');
     }
 
@@ -60,14 +59,14 @@ class RegisterTest extends TestCase
     {
         // Given: User is a guest. (Not logged in yet)
         // When: User posts user's information.
-        $response = $this->post('register', $this->_user_info);
-        $this->_user = User::where('user_id', '=', $this->_user_info['user_id'])->first();
+        $response = $this->from('register')->post('register', $this->_user_info);
 
         // Then: Given user's information should be created successfully.
         // And: User should be authenticated.
         // And: User should be redirected to index page.
         // And: Created user's information should be same as given user's information (user_id, name, email, password)
         $this->assertDatabaseHas('users', ['user_id' => $this->_user_info['user_id']]);
+        $this->_user = User::where('user_id', '=', $this->_user_info['user_id'])->first();
         $this->assertAuthenticatedAs($this->_user);
         $response->assertRedirect('');
         $this->assertEquals($this->_user_info['user_id'], $this->_user->user_id);
