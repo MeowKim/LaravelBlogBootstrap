@@ -242,6 +242,19 @@ class ArticleTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function testUserShouldNotGetNonexistentArticle()
+    {
+        // Given: User is autehnticated.
+        $this->actingAs($this->_user, 'api');
+
+        // When: User requests to get nonexistent article.
+        $last_article = Article::orderBy('id', 'desc')->first();
+        $response = $this->json('get', 'api/articles/' . ++$last_article->id);
+
+        // Then: Response status should be '404 Not Found'.
+        $response->assertNotFound();
+    }
+
     public function testUserShouldUpdateOwnArticle()
     {
         // Given: User is autehnticated.
@@ -260,6 +273,29 @@ class ArticleTest extends TestCase
         // And: Article should be updated successfully.
         $response->assertOk();
         $this->assertDatabaseHas('articles', [
+            'id' => $article->id,
+            'title' => $this->_article_info['title'],
+            'content' => $this->_article_info['content'],
+        ]);
+    }
+
+    public function testGuestShouldNotUpdateArticle()
+    {
+        // Given: User is a guest.
+        // And: There is an article.
+        $this->_article_info['created_by'] = $this->_user->user_id;
+        $this->_article_info['updated_by'] = $this->_user->user_id;
+        $article = Article::create($this->_article_info);
+
+        // When: User requests to update article.
+        $this->_article_info['title'] = 'updated title';
+        $this->_article_info['content'] = 'updated content';
+        $response = $this->put('api/articles/' . $article->id, $this->_article_info);
+
+        // Then: Response status should be '401 Unauthorized'.
+        // And: Article should not be updated.
+        $response->assertUnauthorized();
+        $this->assertDatabaseMissing('articles', [
             'id' => $article->id,
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
@@ -291,27 +327,19 @@ class ArticleTest extends TestCase
         ]);
     }
 
-    public function testGuestShouldNotUpdateArticle()
+    public function testUserShouldNotUpdateNonexistentArticle()
     {
-        // Given: User is a guest.
-        // And: There is an article.
-        $this->_article_info['created_by'] = $this->_user->user_id;
-        $this->_article_info['updated_by'] = $this->_user->user_id;
-        $article = Article::create($this->_article_info);
+        // Given: User is autehnticated.
+        $this->actingAs($this->_user, 'api');
 
-        // When: User requests to update article.
+        // When: User requests to update nonexistent article.
+        $last_article = Article::orderBy('id', 'desc')->first();
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
-        $response = $this->put('api/articles/' . $article->id, $this->_article_info);
+        $response = $this->put('api/articles/' . ++$last_article->id, $this->_article_info);
 
-        // Then: Response status should be '401 Unauthorized'.
-        // And: Article should not be updated.
-        $response->assertUnauthorized();
-        $this->assertDatabaseMissing('articles', [
-            'id' => $article->id,
-            'title' => $this->_article_info['title'],
-            'content' => $this->_article_info['content'],
-        ]);
+        // Then: Response status should be '404 Not Found'.
+        $response->assertNotFound();
     }
 
     public function testUserShouldDeleteOwnArticle()
@@ -330,6 +358,23 @@ class ArticleTest extends TestCase
         // And: Article should be deleted successfully.
         $response->assertNoContent();
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
+    }
+
+    public function testGuestShouldNotDeleteArticle()
+    {
+        // Given: User is a guest.
+        // And: There is an article.
+        $this->_article_info['created_by'] = $this->_user->user_id;
+        $this->_article_info['updated_by'] = $this->_user->user_id;
+        $article = Article::create($this->_article_info);
+
+        // When: User requests to delete article.
+        $response = $this->delete('api/articles/' . $article->id);
+
+        // Then: Response status should be '401 Unauthorized'.
+        // And: Article should not be deleted.
+        $response->assertUnauthorized();
+        $this->assertDatabaseHas('articles', ['id' => $article->id]);
     }
 
     public function testUserShouldNotDeleteOthersArticle()
@@ -351,20 +396,16 @@ class ArticleTest extends TestCase
         $this->assertDatabaseHas('articles', ['id' => $article->id]);
     }
 
-    public function testGuestShouldNotDeleteArticle()
+    public function testUserShouldNotDeleteNonexistentArticle()
     {
-        // Given: User is a guest.
-        // And: There is an article.
-        $this->_article_info['created_by'] = $this->_user->user_id;
-        $this->_article_info['updated_by'] = $this->_user->user_id;
-        $article = Article::create($this->_article_info);
+        // Given: User is autehnticated.
+        $this->actingAs($this->_user, 'api');
 
-        // When: User requests to delete article.
-        $response = $this->delete('api/articles/' . $article->id);
+        // When: User requests to delete nonexistent article.
+        $last_article = Article::orderBy('id', 'desc')->first();
+        $response = $this->delete('api/articles/' . ++$last_article->id);
 
-        // Then: Response status should be '401 Unauthorized'.
-        // And: Article should not be deleted.
-        $response->assertUnauthorized();
-        $this->assertDatabaseHas('articles', ['id' => $article->id]);
+        // Then: Response status should be '404 Not Found'.
+        $response->assertNotFound();
     }
 }

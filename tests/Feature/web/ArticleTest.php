@@ -29,7 +29,7 @@ class ArticleTest extends TestCase
         ];
     }
 
-    public function testUserShouldViewArticlesIndexPage()
+    public function testUserShouldViewArticlesIndex()
     {
         // Given: User is authenticated.
         $this->actingAs($this->_user);
@@ -43,7 +43,7 @@ class ArticleTest extends TestCase
         $response->assertViewIs('articles.index');
     }
 
-    public function testGuestShouldNotViewArticlesIndexPage()
+    public function testGuestShouldNotViewArticlesIndex()
     {
         // Given: User is a guest.
 
@@ -91,7 +91,7 @@ class ArticleTest extends TestCase
         // And: User should be redirected to index page.
         $this->assertDatabaseHas('articles', [
             'title' => $this->_article_info['title'],
-            'content' => $this->_article_info['title'],
+            'content' => $this->_article_info['content'],
             'created_by' => $this->_user->user_id,
         ]);
         $response->assertRedirect('articles');
@@ -149,7 +149,7 @@ class ArticleTest extends TestCase
         $response->assertRedirect('articles/create');
     }
 
-    public function testUserShouldViewArticleDetailPage()
+    public function testUserShouldViewArticle()
     {
         // Given: User is authenticated.
         // And: There is an article.
@@ -167,7 +167,7 @@ class ArticleTest extends TestCase
         $response->assertViewIs('articles.show');
     }
 
-    public function testGuestShouldNotViewArticleDetailPage()
+    public function testGuestShouldNotViewArticle()
     {
         // Given: User is a guest.
         // And: There is an article.
@@ -180,6 +180,19 @@ class ArticleTest extends TestCase
 
         // Then: User should be redirected to login page.
         $response->assertRedirect('login');
+    }
+
+    public function testUserShouldNotViewNonexistentArticle()
+    {
+        // Given: User is authenticated.
+        $this->actingAs($this->_user);
+
+        // When: User visits nonexistent article's detail page.
+        $last_article = Article::orderBy('id', 'desc')->first();
+        $response = $this->get('articles/' . ++$last_article->id);
+
+        // Then: Response should be '404 Not Found'.
+        $response->assertNotFound();
     }
 
     public function testUserShouldViewArticleEditForm()
@@ -240,6 +253,30 @@ class ArticleTest extends TestCase
         $response->assertRedirect('articles/' . $article->id);
     }
 
+    public function testGuestShouldNotUpdateArticle()
+    {
+        // Given: User is a guest.
+        // And: There is an article.
+        $this->_article_info['created_by'] = $this->_user->user_id;
+        $this->_article_info['updated_by'] = $this->_user->user_id;
+        $article = Article::create($this->_article_info);
+
+        // When: User requests to update article.
+        $this->_article_info['title'] = 'updated title';
+        $this->_article_info['content'] = 'updated content';
+        $response = $this->from('articles/' . $article->id . '/edit')
+            ->put('articles/' . $article->id, $this->_article_info);
+
+        // Then: Article should not be updated.
+        // And: User should be redirected to login page.
+        $this->assertDatabaseMissing('articles', [
+            'id' => $article->id,
+            'title' => $this->_article_info['title'],
+            'content' => $this->_article_info['content'],
+        ]);
+        $response->assertRedirect('login');
+    }
+
     public function testUserShouldNotUpdateOthersArticle()
     {
         // Given: User is authenticated.
@@ -267,28 +304,19 @@ class ArticleTest extends TestCase
         ]);
     }
 
-    public function testGuestShouldNotUpdateArticle()
+    public function testUserShouldNotUpdateNonexistentArticle()
     {
-        // Given: User is a guest.
-        // And: There is an article.
-        $this->_article_info['created_by'] = $this->_user->user_id;
-        $this->_article_info['updated_by'] = $this->_user->user_id;
-        $article = Article::create($this->_article_info);
+        // Given: User is authenticated.
+        $this->actingAs($this->_user);
 
-        // When: User requests to update article.
+        // When: User requests to update nonexistent article.
+        $last_article = Article::orderBy('id', 'desc')->first();
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
-        $response = $this->from('articles/' . $article->id . '/edit')
-            ->put('articles/' . $article->id, $this->_article_info);
+        $response = $this->put('articles/' . ++$last_article->id, $this->_article_info);
 
-        // Then: Article should not be updated.
-        // And: User should be redirected to login page.
-        $this->assertDatabaseMissing('articles', [
-            'id' => $article->id,
-            'title' => $this->_article_info['title'],
-            'content' => $this->_article_info['content'],
-        ]);
-        $response->assertRedirect('login');
+        // Then: Response should be '404 Not Found'.
+        $response->assertNotFound();
     }
 
     public function testUserShouldDeleteOwnArticle()
@@ -308,6 +336,24 @@ class ArticleTest extends TestCase
         // And: User should be redirected to index page.
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
         $response->assertRedirect('articles');
+    }
+
+    public function testGuestShouldNotDeleteArticle()
+    {
+        // Given: User is a guest.
+        // And: There is an article.
+        $this->_article_info['created_by'] = $this->_user->user_id;
+        $this->_article_info['updated_by'] = $this->_user->user_id;
+        $article = Article::create($this->_article_info);
+
+        // When: User requests to delete article.
+        $response = $this->from('articles/' . $article->id)
+            ->delete('articles/' . $article->id);
+
+        // Then: Article should not be deleted.
+        // And: User should be redirected to login page.
+        $this->assertDatabaseHas('articles', ['id' => $article->id]);
+        $response->assertRedirect('login');
     }
 
     public function testUserShouldNotDeleteOthersArticle()
@@ -330,21 +376,16 @@ class ArticleTest extends TestCase
         $this->assertDatabaseHas('articles', ['id' => $article->id]);
     }
 
-    public function testGuestShouldNotDeleteArticle()
+    public function testUserShouldNotDeleteNonexistentArticle()
     {
-        // Given: User is a guest.
-        // And: There is an article.
-        $this->_article_info['created_by'] = $this->_user->user_id;
-        $this->_article_info['updated_by'] = $this->_user->user_id;
-        $article = Article::create($this->_article_info);
+        // Given: User is authenticated.
+        $this->actingAs($this->_user);
 
-        // When: User requests to delete article.
-        $response = $this->from('articles/' . $article->id)
-            ->delete('articles/' . $article->id);
+        // When: User requests to delete nonexistent article.
+        $last_article = Article::orderBy('id', 'desc')->first();
+        $response = $this->delete('articles/' . ++$last_article->id);
 
-        // Then: Article should not be deleted.
-        // And: User should be redirected to login page.
-        $this->assertDatabaseHas('articles', ['id' => $article->id]);
-        $response->assertRedirect('login');
+        // Then: Response should be '404 Not Found'.
+        $response->assertNotFound();
     }
 }
