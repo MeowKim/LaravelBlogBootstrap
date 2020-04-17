@@ -33,7 +33,7 @@ class LoginTest extends TestCase
 
     public function testGuestShouldViewLoginForm()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User visits login page.
         $response = $this->get('login');
 
@@ -44,7 +44,7 @@ class LoginTest extends TestCase
 
     public function testUserShouldNotViewLoginForm()
     {
-        // Given: User is autehnticated. (Already logged in)
+        // Given: User is autehnticated.
         $this->actingAs($this->_user);
 
         // When: User visits login page.
@@ -56,7 +56,7 @@ class LoginTest extends TestCase
 
     public function testGuestShouldLoginWithValidCredentials()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User logs in with valid credentials.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
@@ -71,18 +71,18 @@ class LoginTest extends TestCase
 
     public function testGuestShouldNotLoginWithInvalidCredentials()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User logs in with invalid credentials.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => 'invalid-password',
         ]);
 
-        // Then: User should be guest.
+        // Then: User should be a guest.
         // And: User should be redirected to login page.
-        // And: Session has errors with 'user_id'.
-        // And: Session has old input 'user_id'.
-        // ANd: Session does not have old input 'password'.
+        // And: Session should have errors with 'user_id'.
+        // And: Session should have old input 'user_id'.
+        // ANd: Session should not have old input 'password'.
         $this->assertGuest();
         $response->assertRedirect('login');
         $response->assertSessionHasErrors('user_id');
@@ -92,7 +92,7 @@ class LoginTest extends TestCase
 
     public function testThrottleFunctionality()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User tries to logs in with invalid credentials more than 5 times per minute.
         foreach (range(0, 5) as $_) {
             $response = $this->from('login')->post('login', [
@@ -101,8 +101,8 @@ class LoginTest extends TestCase
             ]);
         }
 
-        // Then: Session has errors with 'user_id'.
-        // And: Session contains 'TooManyLoginAtempt' message.
+        // Then: Session should have errors with 'user_id'.
+        // And: Session should contains 'auth.throttle' message.
         $this->assertRegExp(
             sprintf('/^%s$/', str_replace('\:seconds', '\d+', preg_quote(__('auth.throttle'), '/'))),
             collect(
@@ -118,7 +118,7 @@ class LoginTest extends TestCase
 
     public function testRemeberFunctionality()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User logs in with valid credentials & remeber turned on.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
@@ -140,13 +140,13 @@ class LoginTest extends TestCase
 
     public function testUserShouldLogout()
     {
-        // Given: User is autehnticated. (Already logged in)
+        // Given: User is autehnticated.
         $this->actingAs($this->_user);
 
         // When: User logs out.
         $response = $this->post('logout');
 
-        // Then: User Should be guest.
+        // Then: User should be a guest.
         // And: User should be redirected to index page.
         $this->assertGuest();
         $response->assertRedirect('');
@@ -158,13 +158,13 @@ class LoginTest extends TestCase
     {
         Notification::fake();
 
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User send password reset link to email.
         $response = $this->from('password/reset')->post('password/email', [
             'email' => $this->_user->email,
         ]);
 
-        // Then: Token(in password_resets) should be generated successfully.
+        // Then: Token should be generated successfully.
         // And: Token should be matched with notification's token.
         $password_resets = DB::table('password_resets')->where('email', '=', $this->_user->email);
         $generated_token = $password_resets->first();

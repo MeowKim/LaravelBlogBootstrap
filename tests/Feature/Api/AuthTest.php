@@ -28,7 +28,7 @@ class AuthTest extends TestCase
         ]);
     }
 
-    // override to provide authorization header
+    // Override method to provide authorization header
     public function actingAs(Authenticatable $user, $driver = null)
     {
         $token = JWTAuth::fromUser($user);
@@ -39,15 +39,16 @@ class AuthTest extends TestCase
 
     public function testGuestShouldLoginWithValidCredentials()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User logs in with valid credentials.
         $response = $this->json('post', 'api/auth/login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
         ]);
 
-        // Then: User should be authenticated with '200 OK'.
+        // Then: Response status should be '200 OK'.
         // And: Response has 'data' & 'data' has 'access_token', 'token_type', 'expires_in'.
+        // And: User should be authenticated with given credentials.
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
@@ -56,32 +57,35 @@ class AuthTest extends TestCase
                 'expires_in',
             ]
         ]);
+        $this->assertAuthenticatedAs($this->_user, 'api');
     }
 
     public function testGuestShouldNotLoginWithInvalidCredentials()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User logs in with valid credentials.
         $response = $this->json('post', 'api/auth/login', [
             'user_id' => $this->_user->user_id,
             'password' => 'invalid-password',
         ]);
 
-        // Then: User should not be authenticated with '401 Unauthorized'.
+        // Then: Response status should be '401 Unauthorized'.
         // And: Response has 'message' about error.
+        // And: User should still be a guest.
         $response->assertUnauthorized();
         $response->assertJsonStructure(['message']);
+        $this->assertGuest('api');
     }
 
     public function testUserShouldGetUserResource()
     {
-        // Given: User is autehnticated. (Already logged in)
+        // Given: User is autehnticated.
         $this->actingAs($this->_user, 'api');
 
         // When: User request user resource.
         $response = $this->json('post', 'api/auth/user');
 
-        // Then: User should get user resource with '200 OK'.
+        // Then: Response status should be '200 OK'.
         // And: Response has 'data' & 'data' has 'user_id', 'name', 'email', 'image', 'image_name'.
         // And: Fields should be matched with given credentials.
         $response->assertOk();
@@ -101,11 +105,11 @@ class AuthTest extends TestCase
 
     public function testGuestShouldNotGetUserResource()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User request user resource.
         $response = $this->json('post', 'api/auth/user');
 
-        // Then: User should not be authenticated with '401 Unauthorized'.
+        // Then: Response status should be '401 Unauthorized'.
         // And: Response has 'message' about error.
         $response->assertUnauthorized();
         $response->assertJsonStructure(['message']);
@@ -113,25 +117,27 @@ class AuthTest extends TestCase
 
     public function testUserShouldLogout()
     {
-        // Given: User is autehnticated. (Already logged in)
+        // Given: User is autehnticated.
         $this->actingAs($this->_user, 'api');
 
         // When: User request logout.
         $response = $this->json('post', 'api/auth/logout');
 
-        // Then: User should be guest with '200 OK'.
+        // Then: Response status should be '200 OK'.
         // And: Response has 'message' equals auth.loggedout.
+        // And: User should be a guest.
         $response->assertOk();
         $response->assertJsonStructure(['message']);
+        $this->assertGuest('api');
     }
 
     public function testGuestShouldNotLogout()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User request logout.
         $response = $this->json('post', 'api/auth/logout');
 
-        // Then: User should not be authenticated with '401 Unauthorized'.
+        // Then: Response status should be '401 Unauthorized'.
         // And: Response has 'message' about error.
         $response->assertUnauthorized();
         $response->assertJsonStructure(['message']);
@@ -139,13 +145,13 @@ class AuthTest extends TestCase
 
     public function testUserShouldRefreshToken()
     {
-        // Given: User is autehnticated. (Already logged in)
+        // Given: User is autehnticated.
         $this->actingAs($this->_user, 'api');
 
         // When: User request to refresh token.
         $response = $this->json('post', 'api/auth/refresh');
 
-        // Then: Token should be refreshed with '200 OK'.
+        // Then: Response status should be '200 OK'.
         // And: Response has 'data' & 'data' has 'access_token', 'token_type', 'expires_in'.
         $response->assertOk();
         $response->assertJsonStructure([
@@ -159,11 +165,11 @@ class AuthTest extends TestCase
 
     public function testGuestShouldNotRefreshToken()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // When: User request to refresh token.
         $response = $this->json('post', 'api/auth/refresh');
 
-        // Then: User should not be authenticated with '401 Unauthorized'.
+        // Then: Response status should be '401 Unauthorized'.
         // And: Response has 'message' about error.
         $response->assertUnauthorized();
         $response->assertJsonStructure(['message']);
