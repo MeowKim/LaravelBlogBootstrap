@@ -103,8 +103,6 @@ class ArticleTest extends TestCase
         // And: Response has following structure.
         //      'data' has 'id', 'title', 'content', 'image_path', 'created_at', 'updated_at', 'creator', 'updater'.
         //      'creator' & 'updater' has 'user_id', 'name', 'email'.
-
-
         $response->assertCreated();
         $this->assertDatabaseHas('articles', [
             'title' => $this->_article_info['title'],
