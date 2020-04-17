@@ -37,8 +37,9 @@ class ArticleTest extends TestCase
         // When: User visits index page.
         $response = $this->get('articles');
 
-        // Then: User should view index page.
-        $response->assertStatus(200);
+        // Then: Response should be '200 OK'.
+        // And: User should view index page.
+        $response->assertOk();
         $response->assertViewIs('articles.index');
     }
 
@@ -60,8 +61,9 @@ class ArticleTest extends TestCase
         // When: User visits create page.
         $response = $this->get('articles/create');
 
-        // Then: User should view create form.
-        $response->assertStatus(200);
+        // Then: Response should be '200 OK'.
+        // And: User should view create form.
+        $response->assertOk();
         $response->assertViewIs('articles.create');
     }
 
@@ -156,8 +158,9 @@ class ArticleTest extends TestCase
         // When: User visits detail page.
         $response = $this->get('articles/' . $article->id);
 
-        // Then: User should view create form.
-        $response->assertStatus(200);
+        // Then: Response should be '200 OK'.
+        // And: User should view detail page.
+        $response->assertOk();
         $response->assertViewIs('articles.show');
     }
 
@@ -189,8 +192,9 @@ class ArticleTest extends TestCase
         // When: User visits edit page.
         $response = $this->get('articles/' . $article->id . '/edit');
 
-        // Then: User should view edit form.
-        $response->assertStatus(200);
+        // Then: Response should be '200 OK'.
+        // And: User should view edit form.
+        $response->assertOk();
         $response->assertViewIs('articles.edit');
     }
 
@@ -252,21 +256,21 @@ class ArticleTest extends TestCase
         $response = $this->from('articles/' . $article->id . '/edit')
             ->put('articles/' . $article->id, $this->_article_info);
 
-        // Then: Article should not be updated.
-        // And: Response status should be 403 Frobidden.
+
+        // Then: Response status should be '403 Frobidden'.
+        // And: Article should not be updated.
+        $response->assertForbidden();
         $this->assertDatabaseMissing('articles', [
             'id' => $article->id,
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
         ]);
-        $response->assertStatus(403);
     }
 
     public function testGuestShouldNotUpdateArticle()
     {
         // Given: User is a guest. (Not logged in yet)
         // And: There is an article.
-        $other_user = factory(User::class)->make();
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
@@ -322,17 +326,16 @@ class ArticleTest extends TestCase
         $response = $this->from('articles/' . $article->id)
             ->delete('articles/' . $article->id);
 
-        // Then: Article should not be deleted.
-        // And: User should be redirected to detail page.
+        // Then: Response should be '403 Forbidden'.
+        // And: Article should not be deleted.        
+        $response->assertForbidden();
         $this->assertDatabaseHas('articles', ['id' => $article->id]);
-        $response->assertRedirect('articles/' . $article->id);
     }
 
     public function testGuestShouldNotDeleteArticle()
     {
         // Given: User is a guest. (Not logged in yet)
         // And: There is an article.
-        $other_user = factory(User::class)->make();
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);

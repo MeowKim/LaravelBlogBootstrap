@@ -37,8 +37,9 @@ class LoginTest extends TestCase
         // When: User visits login page.
         $response = $this->get('login');
 
-        // Then: User should view login form.
-        $response->assertStatus(200);
+        // Then: Response should be '200 OK'.
+        // And: User should view login form.
+        $response->assertOk();
         $response->assertViewIs('auth.login');
     }
 
