@@ -32,6 +32,7 @@ class RegisterTest extends TestCase
     public function testGuestShouldViewRegisterForm()
     {
         // Given: User is a guest.
+
         // When: User visits register page.
         $response = $this->get('register');
 
@@ -56,7 +57,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldRegister()
     {
         // Given: User is a guest.
-        // When: User posts user's information.
+
+        // When: User requests to register.
         $response = $this->from('register')->post('register', $this->_user_info);
 
         // Then: Given user's information should be created successfully.
@@ -70,7 +72,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithoutUserId()
     {
         // Given: User is a guest.
-        // When: User posts user's information without 'user_id'.
+
+        // When: User requests to register without 'user_id'.
         $this->_user_info['user_id'] = '';
         $response = $this->from('register')->post('register', $this->_user_info);
 
@@ -92,7 +95,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithoutName()
     {
         // Given: User is a guest.
-        // When: User posts user's information without 'name'.
+
+        // When: User requests to register without 'name'.
         $this->_user_info['name'] = '';
         $response = $this->from('register')->post('register', $this->_user_info);
 
@@ -114,7 +118,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithoutEmail()
     {
         // Given: User is a guest.
-        // When: User posts user's information without 'email'.
+
+        // When: User requests to register without 'email'.
         $this->_user_info['email'] = '';
         $response = $this->from('register')->post('register', $this->_user_info);
 
@@ -136,7 +141,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithoutPassword()
     {
         // Given: User is a guest.
-        // When: User posts user's information without 'password'.
+
+        // When: Userrequests to register without 'password'.
         $this->_user_info['password'] = '';
         $response = $this->from('register')->post('register', $this->_user_info);
 
@@ -159,7 +165,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithoutPasswordConfirmation()
     {
         // Given: User is a guest.
-        // When: User posts user's information without 'password_confirmation'.
+
+        // When: User requests to register without 'password_confirmation'.
         $this->_user_info['password_confirmation'] = '';
         $response = $this->from('register')->post('register', $this->_user_info);
 
@@ -182,7 +189,8 @@ class RegisterTest extends TestCase
     public function testGuestShouldNotRegisterWithPasswordsNotMatching()
     {
         // Given: User is a guest.
-        // When: User posts user's information passwords not matching.
+
+        // When: User requests to register with passwords not matching.
         $this->_user_info['password_confirmation'] = 'another-password';
         $response = $this->from('register')->post('register', $this->_user_info);
 

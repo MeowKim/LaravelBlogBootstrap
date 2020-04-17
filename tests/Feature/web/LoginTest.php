@@ -34,6 +34,7 @@ class LoginTest extends TestCase
     public function testGuestShouldViewLoginForm()
     {
         // Given: User is a guest.
+
         // When: User visits login page.
         $response = $this->get('login');
 
@@ -58,7 +59,8 @@ class LoginTest extends TestCase
     public function testGuestShouldLoginWithValidCredentials()
     {
         // Given: User is a guest.
-        // When: User logs in with valid credentials.
+
+        // When: User requests to login with valid credentials.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
@@ -73,7 +75,8 @@ class LoginTest extends TestCase
     public function testGuestShouldNotLoginWithInvalidCredentials()
     {
         // Given: User is a guest.
-        // When: User logs in with invalid credentials.
+
+        // When: User requests to login with invalid credentials.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => 'invalid-password',
@@ -94,7 +97,8 @@ class LoginTest extends TestCase
     public function testThrottleFunctionality()
     {
         // Given: User is a guest.
-        // When: User tries to logs in with invalid credentials more than 5 times per minute.
+
+        // When: User tries to login with invalid credentials more than 5 times per minute.
         foreach (range(0, 5) as $_) {
             $response = $this->from('login')->post('login', [
                 'user_id' => $this->_user->user_id,
@@ -120,7 +124,8 @@ class LoginTest extends TestCase
     public function testRemeberFunctionality()
     {
         // Given: User is a guest.
-        // When: User logs in with valid credentials & remeber turned on.
+
+        // When: User requests to login with valid credentials & remeber turned on.
         $response = $this->from('login')->post('login', [
             'user_id' => $this->_user->user_id,
             'password' => $this->_password,
@@ -144,7 +149,7 @@ class LoginTest extends TestCase
         // Given: User is autehnticated.
         $this->actingAs($this->_user);
 
-        // When: User logs out.
+        // When: User requests to logout.
         $response = $this->post('logout');
 
         // Then: User should be a guest.
@@ -160,7 +165,8 @@ class LoginTest extends TestCase
         Notification::fake();
 
         // Given: User is a guest.
-        // When: User send password reset link to email.
+
+        // When: User requests to send password reset link.
         $response = $this->from('password/reset')->post('password/email', [
             'email' => $this->_user->email,
         ]);

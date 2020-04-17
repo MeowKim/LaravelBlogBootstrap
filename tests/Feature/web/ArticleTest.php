@@ -31,7 +31,7 @@ class ArticleTest extends TestCase
 
     public function testUserShouldViewArticlesIndexPage()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
         $this->actingAs($this->_user);
 
         // When: User visits index page.
@@ -45,7 +45,8 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotViewArticlesIndexPage()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
+
         // When: User visits index page.
         $response = $this->get('articles');
 
@@ -55,7 +56,7 @@ class ArticleTest extends TestCase
 
     public function testUserShouldViewCreateForm()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
         $this->actingAs($this->_user);
 
         // When: User visits create page.
@@ -69,7 +70,8 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotViewCreateForm()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
+
         // When: User visits create page.
         $response = $this->get('articles/create');
 
@@ -79,16 +81,17 @@ class ArticleTest extends TestCase
 
     public function testUserShouldCreateArticle()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
         $this->actingAs($this->_user);
 
-        // When: User posts articles information.
+        // When: User requests to create article.
         $response = $this->from('articles/create')->post('articles', $this->_article_info);
 
         // Then: Article should be created successfully.
         // And: User should be redirected to index page.
         $this->assertDatabaseHas('articles', [
             'title' => $this->_article_info['title'],
+            'content' => $this->_article_info['title'],
             'created_by' => $this->_user->user_id,
         ]);
         $response->assertRedirect('articles');
@@ -96,8 +99,9 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotCreateArticle()
     {
-        // Given: User is a guest. (Not logged in yet)
-        // When: User posts articles information.
+        // Given: User is a guest.
+
+        // When: User requests to create article.
         $response = $this->from('articles/create')->post('articles', $this->_article_info);
 
         // Then: Article should not be created.
@@ -111,10 +115,10 @@ class ArticleTest extends TestCase
 
     public function testUserShouldNotCreateArticleWithoutTitle()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
         $this->actingAs($this->_user);
 
-        // When: User posts articles information without 'title'.
+        // When: User requests to create article without 'title'.
         $this->_article_info['title'] = '';
         $response = $this->from('articles/create')->post('articles', $this->_article_info);
 
@@ -129,10 +133,10 @@ class ArticleTest extends TestCase
 
     public function testUserShouldNotCreateArticleWithoutContent()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
         $this->actingAs($this->_user);
 
-        // When: User posts articles information without 'content'.
+        // When: User requests to create article without 'content'.
         $this->_article_info['content'] = '';
         $response = $this->from('articles/create')->post('articles', $this->_article_info);
 
@@ -147,10 +151,9 @@ class ArticleTest extends TestCase
 
     public function testUserShouldViewArticleDetailPage()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
+        // And: There is an article.
         $this->actingAs($this->_user);
-
-        // And: There is an article could be read.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
@@ -166,8 +169,8 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotViewArticleDetailPage()
     {
-        // Given: User is a guest. (Not logged in yet)
-        // And: There is an article could be read.
+        // Given: User is a guest.
+        // And: There is an article.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
@@ -181,10 +184,9 @@ class ArticleTest extends TestCase
 
     public function testUserShouldViewArticleEditForm()
     {
-        // Given: User is authenticated. (Already logged in)
+        // Given: User is authenticated.
+        // And: There is an article.
         $this->actingAs($this->_user);
-
-        // And: There is an article could be read.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
@@ -200,8 +202,8 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotViewArticleEditForm()
     {
-        // Given: User is a guest. (Not logged in yet)
-        // And: There is an article could be read.
+        // Given: User is a guest.
+        // And: There is an article.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
@@ -215,15 +217,14 @@ class ArticleTest extends TestCase
 
     public function testUserShouldUpdateOwnArticle()
     {
-        // Given: User is authenticated. (Already logged in)
-        $this->actingAs($this->_user);
-
+        // Given: User is authenticated.
         // And: There is an article that is created by given user.
+        $this->actingAs($this->_user);
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to update article.
+        // When: User requests to update article.
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
         $response = $this->from('articles/' . $article->id . '/edit')
@@ -241,16 +242,15 @@ class ArticleTest extends TestCase
 
     public function testUserShouldNotUpdateOthersArticle()
     {
-        // Given: User is authenticated. (Already logged in)
-        $this->actingAs($this->_user);
-
+        // Given: User is authenticated.
         // And: There is an article that is created by other user.
+        $this->actingAs($this->_user);
         $other_user = factory(User::class)->make();
         $this->_article_info['created_by'] = $other_user->user_id;
         $this->_article_info['updated_by'] = $other_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to update article.
+        // When: User requests to update article.
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
         $response = $this->from('articles/' . $article->id . '/edit')
@@ -269,13 +269,13 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotUpdateArticle()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // And: There is an article.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to update article.
+        // When: User requests to update article.
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
         $response = $this->from('articles/' . $article->id . '/edit')
@@ -293,15 +293,14 @@ class ArticleTest extends TestCase
 
     public function testUserShouldDeleteOwnArticle()
     {
-        // Given: User is authenticated. (Already logged in)
-        $this->actingAs($this->_user);
-
+        // Given: User is authenticated.
         // And: There is an article that is created by given user.
+        $this->actingAs($this->_user);
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to delete article.
+        // When: User requests to delete article.
         $response = $this->from('articles/' . $article->id)
             ->delete('articles/' . $article->id);
 
@@ -313,16 +312,15 @@ class ArticleTest extends TestCase
 
     public function testUserShouldNotDeleteOthersArticle()
     {
-        // Given: User is authenticated. (Already logged in)
-        $this->actingAs($this->_user);
-
+        // Given: User is authenticated.
         // And: There is an article that is created by other user.
+        $this->actingAs($this->_user);
         $other_user = factory(User::class)->make();
         $this->_article_info['created_by'] = $other_user->user_id;
         $this->_article_info['updated_by'] = $other_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to delete article.
+        // When: User requests to delete article.
         $response = $this->from('articles/' . $article->id)
             ->delete('articles/' . $article->id);
 
@@ -334,13 +332,13 @@ class ArticleTest extends TestCase
 
     public function testGuestShouldNotDeleteArticle()
     {
-        // Given: User is a guest. (Not logged in yet)
+        // Given: User is a guest.
         // And: There is an article.
         $this->_article_info['created_by'] = $this->_user->user_id;
         $this->_article_info['updated_by'] = $this->_user->user_id;
         $article = Article::create($this->_article_info);
 
-        // When: User request to delete article.
+        // When: User requests to delete article.
         $response = $this->from('articles/' . $article->id)
             ->delete('articles/' . $article->id);
 
