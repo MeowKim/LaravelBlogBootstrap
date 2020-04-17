@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ArticleTest extends TestCase
@@ -22,10 +24,12 @@ class ArticleTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake();
         $this->_user = User::where('user_id', '=', 'test')->first();
         $this->_article_info = [
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
+            'image' => UploadedFile::fake()->image('test.jpg'),
         ];
     }
 
@@ -89,12 +93,15 @@ class ArticleTest extends TestCase
 
         // Then: Article should be created successfully.
         // And: User should be redirected to index page.
+        // And: Uploaded image should be exist in storage.
         $this->assertDatabaseHas('articles', [
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
+            'image_name' => $this->_article_info['image']->name,
             'created_by' => $this->_user->user_id,
         ]);
         $response->assertRedirect('articles');
+        Storage::assertExists(Article::find(Article::orderBy('id', 'desc')->first()->id)->image_path);
     }
 
     public function testGuestShouldNotCreateArticle()
@@ -240,17 +247,21 @@ class ArticleTest extends TestCase
         // When: User requests to update article.
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
+        $this->_article_info['image'] = UploadedFile::fake()->image('updated.png');
         $response = $this->from('articles/' . $article->id . '/edit')
             ->put('articles/' . $article->id, $this->_article_info);
 
         // Then: Article should be updated successfully.
         // And: User should be redirected to detail page.
+        // And: Uploaded image should be exist in storage.
         $this->assertDatabaseHas('articles', [
             'id' => $article->id,
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
+            'image_name' => $this->_article_info['image']->name,
         ]);
         $response->assertRedirect('articles/' . $article->id);
+        Storage::assertExists(Article::find($article->id)->image_path);
     }
 
     public function testGuestShouldNotUpdateArticle()

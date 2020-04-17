@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use JWTAuth;
 use Tests\TestCase;
 
@@ -24,10 +26,12 @@ class ArticleTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake();
         $this->_user = User::where('user_id', '=', 'test')->first();
         $this->_article_info = [
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
+            'image' => UploadedFile::fake()->image('test.jpg'),
         ];
     }
 
@@ -103,10 +107,12 @@ class ArticleTest extends TestCase
         // And: Response has following structure.
         //      'data' has 'id', 'title', 'content', 'image_path', 'created_at', 'updated_at', 'creator', 'updater'.
         //      'creator' & 'updater' has 'user_id', 'name', 'email'.
+        // And: Uploaded image should be exist in storage.
         $response->assertCreated();
         $this->assertDatabaseHas('articles', [
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
+            'image_name' => $this->_article_info['image']->name,
             'created_by' => $this->_user->user_id,
         ]);
         $response->assertJsonStructure([
@@ -129,6 +135,7 @@ class ArticleTest extends TestCase
                 ],
             ]
         ]);
+        Storage::assertExists($response['data']['image_path']);
     }
 
     public function testGuestShouldNotCreateArticle()
@@ -265,16 +272,20 @@ class ArticleTest extends TestCase
         // When: User requests to update article.
         $this->_article_info['title'] = 'updated title';
         $this->_article_info['content'] = 'updated content';
+        $this->_article_info['image'] = UploadedFile::fake()->image('updated.png');
         $response = $this->put('api/articles/' . $article->id, $this->_article_info);
 
         // Then: Response status should be '200 OK'.
         // And: Article should be updated successfully.
+        // And: Uploaded image should be exist in storage.
         $response->assertOk();
         $this->assertDatabaseHas('articles', [
             'id' => $article->id,
             'title' => $this->_article_info['title'],
             'content' => $this->_article_info['content'],
+            'image_name' => $this->_article_info['image']->name,
         ]);
+        Storage::assertExists(Article::find($article->id)->image_path);
     }
 
     public function testGuestShouldNotUpdateArticle()
