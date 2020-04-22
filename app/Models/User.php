@@ -41,6 +41,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $user_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUserId($value)
  */
 class User extends Authenticatable implements JWTSubject
 {
