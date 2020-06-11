@@ -3,7 +3,7 @@
 A simple blog that provides genenral Web & Rest API.  
 Powered by [PHP Laravel Framework](https://laravel.com/) & [Bootstrap CSS Toolkit](https://getbootstrap.com/) (Front-end scaffolding).  
 Check [Postman Documentation](https://documenter.getpostman.com/view/6527807/SzYgQaZe?version=latest) for API details.
-<span style="color:red;">test</span>
+<h1 style="color:red;">test</h1>
 
 ## Getting Started
 
