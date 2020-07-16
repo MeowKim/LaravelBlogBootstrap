@@ -31,3 +31,7 @@ Route::group(['prefix' => 'profile'], function () {
     Route::get('/password/change', 'ProfileController@changePassword')->name('profile.password.change');
     Route::put('/password', 'ProfileController@updatePassword')->name('profile.password.update');
 });
+
+Route::get('phpinfo', function () {
+    return view('phpinfo');
+});
