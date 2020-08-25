@@ -1,10 +1,11 @@
 # Laravel Blog /w Bootstrap
 
+## :pencil: About
 A simple blog that provides genenral Web & Rest API.  
 Powered by [PHP Laravel Framework](https://laravel.com/) & [Bootstrap CSS Toolkit](https://getbootstrap.com/) (Front-end scaffolding).  
 Check [Postman Documentation](https://documenter.getpostman.com/view/6527807/SzYgQaZe?version=latest) for API details.
 
-## Getting Started
+## :car: Getting Started
 
 ### 1. Clone Repository
 
@@ -49,3 +50,7 @@ Following properties would be changed to proper values
 ```
 php artisan migrate
 ```
+
+## :unlock: License
+Copyright &copy;2020 [MeowKim](https://github.com/MeowKim)  
+Distributed under the [MIT](https://github.com/MeowKim/LaravelBlogBootstrap/blob/master/LICENSE) License.  
