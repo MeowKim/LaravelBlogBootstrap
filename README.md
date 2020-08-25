@@ -9,48 +9,49 @@ Some Markdown text with <span style="color:blue">some *blue* text</span>.
 
 ## :car: Getting Started
 
-### 1. Clone Repository
-
+### Clone
+Clone this repo to your local machine.
 ```
-git clone https://github.com/MeowKim/LaravelBlogBootstrap.git <DIRECTORY>
-```
-
-ex) git clone https://github.com/MeowKim/LaravelBlogBootstrap.git blog
-
-### 2. Initialize
-
-```
-cd <DIRECTORY>
-cp .env.example .env
-composer install
+$ git clone https://github.com/MeowKim/LaravelBlogBootstrap.git
 ```
 
-### 3. Set Permission (optional)
-
-Do this, if actual user is different from current user (ex. working with root credential)
-
+### Install PHP packages
+Use **composer** to install
 ```
-chown -R <USER>:<USER_GROUP> <PATH_TO_USER_DIRECTORY>
+$ composer install
 ```
 
-ex) chown -R user:group /home/user
-
-### 4. Edit Environment Configuration (.env)
-
+### Install JS packages & compile assets
+Use **yarn** to install.
 ```
-vi .env
+$ yarn
+$ yarn dev
+```
+or use **npm**.
+```
+$ npm install
+$ npm run dev
 ```
 
-Following properties would be changed to proper values
-
--   APP\_\*
--   DB\_\*
--   MAIL\_\*
-
-### 5. DB Migratation
-
+### Set Environment
+Create `.env` file from existing example and fill required items.
 ```
-php artisan migrate
+$ cp .env.example .env
+$ vi .env
+```
+> Items about DB connection (DB_*) MUST be filled with your own.
+> Others are optional.
+
+### Generate key
+Create key for your laravel app via artisan command.
+```
+$ php artisan key:generate
+```
+
+### Migration
+Migrate DB with given seed files.  
+```
+$ php artisan migrate
 ```
 
 ## :unlock: License
